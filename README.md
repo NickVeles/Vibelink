@@ -1,5 +1,6 @@
 
 - [x] Remove the nav bar and the Explore tab
+- [ ] Add the button press animation
 - [ ] Add the settings screen
 
 # Welcome to your Expo app 👋
