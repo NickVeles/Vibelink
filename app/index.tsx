@@ -46,7 +46,7 @@ export default function HomeScreen() {
     <View style={{ flex: 1 }}>
       <Header />
 
-      {/* Title */}
+      {/* Vibe buttons */}
       <ParallaxScrollView
         headerBackgroundColor={{ light: '#f2f2f2', dark: '#1D3D47' }}
       >
