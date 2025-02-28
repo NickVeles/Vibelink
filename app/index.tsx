@@ -27,12 +27,13 @@ export default function HomeScreen() {
     loadVibes();
   }, []);
 
+  //TODO: temp
   const addVibe = async () => {
     const newVibe: Vibe = {
       id: uuidv4(),
       text: 'Happy',
       emoji: '😊',
-      color: 'yellow',
+      color: '#ff6f61',
       isConfirmable: true,
     };
 
@@ -49,7 +50,7 @@ export default function HomeScreen() {
       <ParallaxScrollView>
       {vibes.map((vibe) => (
         <LinearGradient
-          colors={[ Color(vibe.color).lighten(0.5).toString(), vibe.color, Color(vibe.color).lighten(0.5).toString()]}
+          colors={[ Color(vibe.color).rotate(5).toString(), vibe.color, Color(vibe.color).rotate(-5).toString()]}
           start={[1, 0]}
           end={[0, 0.75]}
           style={{ borderRadius: 10 }}>
