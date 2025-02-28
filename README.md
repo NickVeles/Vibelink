@@ -1,6 +1,7 @@
 
 - [x] Remove the nav bar and the Explore tab
-- [x] Add cooldown to the buttons
+- [ ] Add cooldown to the vibe buttons
+- [ ] Add context window to the vibe buttons
 - [ ] Add the button press animation
 - [ ] Add the settings screen
 
