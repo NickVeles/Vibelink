@@ -24,9 +24,7 @@ const styles = {
     justifyContent: 'space-between',
     padding: '10px',
     backgroundColor: '#b0485b',
-    borderBottom: '1px solid #ddd',
-    borderRadius: '18px',
-    margin: '4px',
+    borderBottom: '1px solid rgb(102, 32, 44)',
   },
   settingsButton: {
     background: 'none',
