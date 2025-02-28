@@ -41,33 +41,27 @@ export default function HomeScreen() {
   return (
     <View style={{ flex: 1 }}>
       <Header />
+
+      {/* Title */}
       <ParallaxScrollView
-      headerBackgroundColor={{ light: '#f2f2f2', dark: '#1D3D47' }}>
-      <ThemedView style={{ flex: 1, padding: 16 }}>
+      headerBackgroundColor={{ light: '#f2f2f2', dark: '#1D3D47' }}
+      >
         {vibes.map((vibe) => (
-          <TouchableOpacity key={vibe.id}>
+          <TouchableOpacity key={vibe.id} style={styles.vibeButton}>
             <ThemedText>{vibe.emoji} {vibe.text}</ThemedText>
           </TouchableOpacity>
         ))}
-      </ThemedView>
+      </ParallaxScrollView>
+
+      {/* Add button */}
       <TouchableOpacity style={styles.addButton} onPress={addVibe}>
         <AddIcon height={32} width={32} />
       </TouchableOpacity>
-      </ParallaxScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
   reactLogo: {
     height: 178,
     width: 290,
@@ -85,5 +79,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     bottom: 10,
     right: 10,
+  },
+  vibeButton: {
+    padding: 10,
+    borderRadius: 10,
   },
 });
