@@ -1,7 +1,6 @@
 import React from 'react';
 import { LogoTitleIcon, SettingsIcon } from './ui/Icon';
 import { TouchableOpacity } from 'react-native';
-import { opacity } from 'react-native-reanimated/lib/typescript/Colors';
 
 interface HeaderProps {
   style?: React.CSSProperties;
@@ -27,7 +26,7 @@ const styles = {
     justifyContent: 'space-between',
     padding: '10px',
     background: 'linear-gradient(225deg, rgb(176, 72, 91), rgb(255, 111, 97))',
-    borderBottom: '1px solid rgb(102, 32, 44)',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   },
   settingsButton: {
     background: 'rgba(176, 72, 91, 0.4)',
