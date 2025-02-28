@@ -1,5 +1,6 @@
 
 - [x] Remove the nav bar and the Explore tab
+- [x] Add cooldown to the buttons
 - [ ] Add the button press animation
 - [ ] Add the settings screen
 
