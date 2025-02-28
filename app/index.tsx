@@ -13,6 +13,7 @@ import Header from '@/components/Header';
 import { AddIcon } from '@/components/ui/Icon';
 import { Vibe } from '@/models/Vibe';
 import { getVibes, saveVibes } from '@/utils/storage';
+import Color from 'color';
 
 export default function HomeScreen() {
   const [vibes, setVibes] = useState<Vibe[]>([]);
@@ -47,17 +48,25 @@ export default function HomeScreen() {
       {/* Vibe buttons */}
       <ParallaxScrollView>
       {vibes.map((vibe) => (
-        <TouchableOpacity key={vibe.id} style={[styles.vibeButton, { backgroundColor: vibe.color }]}>
-        <ThemedText style={{ fontSize: 32 }}>
-          {vibe.emoji}
-        </ThemedText>
-        <ThemedText style={{ fontSize: 24 }}>
-          {vibe.text}
-        </ThemedText>
-        <ThemedText style={{ fontSize: 32, opacity: 0 }}>
-          {vibe.emoji}
-        </ThemedText>
-        </TouchableOpacity>
+        <LinearGradient
+          colors={[ Color(vibe.color).lighten(0.5).toString(), vibe.color, Color(vibe.color).lighten(0.5).toString()]}
+          start={[1, 0]}
+          end={[0, 0.75]}
+          style={{ borderRadius: 10 }}>
+          <TouchableOpacity key={vibe.id} style={styles.vibeButton}>
+
+            {/* Button Content */}
+            <ThemedText style={{ fontSize: 32 }}>
+              {vibe.emoji}
+            </ThemedText>
+            <ThemedText style={{ fontSize: 24, color: Color(vibe.color).isDark() ? '#f2f2f2' : '#121212' }}>
+              {vibe.text}
+            </ThemedText>
+            <ThemedText style={{ fontSize: 32, opacity: 0 }}>
+              {vibe.emoji}
+            </ThemedText>
+          </TouchableOpacity>
+        </LinearGradient>
       ))}
       </ParallaxScrollView>
 
