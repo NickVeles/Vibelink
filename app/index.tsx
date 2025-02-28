@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
-  Image,
   StyleSheet,
-  Platform,
   View,
   TouchableOpacity,
 } from 'react-native';
@@ -10,7 +8,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
 import Header from '@/components/Header';
 import { AddIcon } from '@/components/ui/Icon';
 import { Vibe } from '@/models/Vibe';
@@ -48,36 +45,29 @@ export default function HomeScreen() {
 
       {/* Vibe buttons */}
       <ParallaxScrollView
-        headerBackgroundColor={{ light: '#f2f2f2', dark: '#1D3D47' }}
+      headerBackgroundColor={{ light: '#f2f2f2', dark: '#1D3D47' }}
       >
-        {vibes.map((vibe) => (
-          <TouchableOpacity key={vibe.id} style={styles.vibeButton}>
-            <ThemedText style={{ fontSize: 24 }}>
-              {vibe.emoji}
-            </ThemedText>
-            <ThemedText style={{ marginLeft: 10 }}>
-              {vibe.text}
-            </ThemedText>
-          </TouchableOpacity>
-        ))}
+      {vibes.map((vibe) => (
+        <TouchableOpacity key={vibe.id} style={styles.vibeButton}>
+        <ThemedText style={{ fontSize: 24 }}>
+          {vibe.emoji}
+        </ThemedText>
+        <ThemedText style={{ marginLeft: 10 }}>
+          {vibe.text}
+        </ThemedText>
+        </TouchableOpacity>
+      ))}
       </ParallaxScrollView>
 
       {/* Add button */}
       <TouchableOpacity style={styles.addButton} onPress={addVibe}>
-        <AddIcon height={32} width={32} />
+      <AddIcon height={32} width={32} />
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
   addButton: {
     position: 'absolute',
     width: 40,
