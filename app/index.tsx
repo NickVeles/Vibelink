@@ -48,7 +48,7 @@ export default function HomeScreen() {
       headerBackgroundColor={{ light: '#f2f2f2', dark: '#1D3D47' }}
       >
       {vibes.map((vibe) => (
-        <TouchableOpacity key={vibe.id} style={styles.vibeButton}>
+        <TouchableOpacity key={vibe.id} style={[styles.vibeButton, { backgroundColor: vibe.color }]}>
         <ThemedText style={{ fontSize: 24 }}>
           {vibe.emoji}
         </ThemedText>
