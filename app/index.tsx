@@ -52,8 +52,11 @@ export default function HomeScreen() {
       >
         {vibes.map((vibe) => (
           <TouchableOpacity key={vibe.id} style={styles.vibeButton}>
-            <ThemedText>
-              {vibe.emoji} {vibe.text}
+            <ThemedText style={{ fontSize: 24 }}>
+              {vibe.emoji}
+            </ThemedText>
+            <ThemedText style={{ marginLeft: 10 }}>
+              {vibe.text}
             </ThemedText>
           </TouchableOpacity>
         ))}
@@ -89,5 +92,7 @@ const styles = StyleSheet.create({
   vibeButton: {
     padding: 10,
     borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'center',
   },
 });
