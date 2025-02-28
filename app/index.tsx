@@ -4,6 +4,7 @@ import {
   View,
   TouchableOpacity,
 } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { v4 as uuidv4 } from 'uuid';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
@@ -44,16 +45,17 @@ export default function HomeScreen() {
       <Header />
 
       {/* Vibe buttons */}
-      <ParallaxScrollView
-      headerBackgroundColor={{ light: '#f2f2f2', dark: '#1D3D47' }}
-      >
+      <ParallaxScrollView>
       {vibes.map((vibe) => (
         <TouchableOpacity key={vibe.id} style={[styles.vibeButton, { backgroundColor: vibe.color }]}>
-        <ThemedText style={{ fontSize: 24 }}>
+        <ThemedText style={{ fontSize: 32 }}>
           {vibe.emoji}
         </ThemedText>
-        <ThemedText style={{ marginLeft: 10 }}>
+        <ThemedText style={{ fontSize: 24 }}>
           {vibe.text}
+        </ThemedText>
+        <ThemedText style={{ fontSize: 32, opacity: 0 }}>
+          {vibe.emoji}
         </ThemedText>
         </TouchableOpacity>
       ))}
@@ -61,7 +63,13 @@ export default function HomeScreen() {
 
       {/* Add button */}
       <TouchableOpacity style={styles.addButton} onPress={addVibe}>
-      <AddIcon height={32} width={32} />
+        <LinearGradient
+          colors={['#ff6f61', '#b0485b']}
+          start={[0, 1]}
+          end={[1, 0]}
+          style={{ borderRadius: '50%' }}>
+          <AddIcon height={50} width={50}/>
+        </LinearGradient>
       </TouchableOpacity>
     </View>
   );
@@ -70,19 +78,19 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   addButton: {
     position: 'absolute',
-    width: 40,
-    height: 40,
+    width: 60,
+    height: 60,
     borderRadius: '50%',
-    backgroundColor: '#b0485b',
     justifyContent: 'center',
     alignItems: 'center',
-    bottom: 10,
-    right: 10,
+    bottom: 16,
+    right: 16,
   },
   vibeButton: {
-    padding: 10,
+    paddingVertical: 30,
+    paddingHorizontal: 10,
     borderRadius: 10,
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
 });
