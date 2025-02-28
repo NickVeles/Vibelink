@@ -1,15 +1,13 @@
 import React from 'react';
 import { LogoTitleIcon, SettingsIcon } from './ui/Icon';
-import { TouchableWithoutFeedback } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 
 const Header: React.FC = () => {
   return (
     <header style={styles.header}>
-      <TouchableWithoutFeedback>
-        <div style={styles.settingsButton}>
-          <SettingsIcon height={32} width={32} />
-        </div>
-      </TouchableWithoutFeedback>
+      <TouchableOpacity style={styles.settingsButton}>
+        <SettingsIcon height={32} width={32} />
+      </TouchableOpacity>
       <div style={styles.logoContainer}>
         <LogoTitleIcon height={32} width={128} />
       </div>
@@ -29,13 +27,7 @@ const styles = {
   settingsButton: {
     background: 'none',
     border: 'none',
-    cursor: 'pointer',
     borderRadius: '50%',
-    alignItems: 'center',
-    display: 'flex',
-    justifyContent: 'center',
-    width: '40px',
-    height: '40px',
   },
   logoContainer: {
     marginLeft: '-40px',
