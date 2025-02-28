@@ -2,9 +2,13 @@ import React from 'react';
 import { LogoTitleIcon, SettingsIcon } from './ui/Icon';
 import { TouchableOpacity } from 'react-native';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  style?: React.CSSProperties;
+}
+
+const Header: React.FC<HeaderProps> = ({ style }) => {
   return (
-    <header style={styles.header}>
+    <header style={{ ...styles.header, ...style }}>
       <TouchableOpacity style={styles.settingsButton}>
         <SettingsIcon height={32} width={32} />
       </TouchableOpacity>
