@@ -28,6 +28,7 @@ const styles = {
     background: 'none',
     border: 'none',
     borderRadius: '50%',
+    padding: 4,
   },
   logoContainer: {
     marginLeft: '-40px',
