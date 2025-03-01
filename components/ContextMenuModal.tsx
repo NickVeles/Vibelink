@@ -90,7 +90,8 @@ const styles = StyleSheet.create({
     width: '80%',
     backgroundColor: '#f9f9f9',
     borderRadius: 10,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     alignItems: 'center',
   },
   option: {
