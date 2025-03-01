@@ -16,10 +16,12 @@ import { Vibe } from '@/models/Vibe';
 import { getVibes, saveVibes } from '@/utils/storage';
 import Color from 'color';
 import { ContextMenuModal } from '@/components/ContextMenuModal';
+import { ConfirmModal } from '@/components/ConfirmModal'; // Import ConfirmModal
 
 export default function HomeScreen() {
   const [vibes, setVibes] = useState<Vibe[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false); // State for ConfirmModal visibility
   const [selectedVibe, setSelectedVibe] = useState<Vibe | null>(null);
   const [maxTextWidth, setMaxTextWidth] = useState(0);
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
@@ -99,6 +101,24 @@ export default function HomeScreen() {
     setSelectedVibe(null);
   };
 
+  const closeConfirmModal = () => {
+    setConfirmModalVisible(false);
+  };
+
+  const handleConfirm = () => {
+    if (selectedVibe) {
+      sendVibe();
+    }
+    closeConfirmModal();
+  };
+
+  const sendVibe = () => {
+    setButtonsDisabled(true);
+    setTimeout(() => setButtonsDisabled(false), 3000);
+
+    //TODO: Send the vibe
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <Header />
@@ -116,8 +136,12 @@ export default function HomeScreen() {
               style={styles.vibeButton}
               onPress={() => {
                 setSelectedVibe(vibe);
-                setButtonsDisabled(true);
-                setTimeout(() => setButtonsDisabled(false), 3000);
+
+                if (vibe.isConfirmable) {
+                  setConfirmModalVisible(true);
+                } else {
+                  sendVibe();
+                }
               }}
               onLongPress={() => {
                 setSelectedVibe(vibe);
@@ -180,6 +204,18 @@ export default function HomeScreen() {
           onMoveDown={handleMoveDown}
           onDelete={handleDelete}
           onClose={closeModal}
+        />
+      )}
+
+      {/* Confirm Modal */}
+      {selectedVibe && (
+        <ConfirmModal
+          visible={confirmModalVisible}
+          title="Are you sure you want to send this vibe?"
+          cancelText="asd"
+          acceptText="asd"
+          onConfirm={handleConfirm}
+          onClose={closeConfirmModal}
         />
       )}
     </View>
