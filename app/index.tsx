@@ -94,7 +94,7 @@ export default function HomeScreen() {
         {vibes.map((vibe) => (
           <LinearGradient
             key={vibe.id}
-            colors={[Color(vibe.color).rotate(5).hex(), vibe.color, Color(vibe.color).rotate(-5).hex()]}
+            colors={[Color(vibe.color).rotate(8).hex(), vibe.color, Color(vibe.color).rotate(-8).hex()]}
             start={[1, 0]}
             end={[0, 0.75]}
             style={{ borderRadius: 10 }}>
@@ -109,7 +109,7 @@ export default function HomeScreen() {
               <ThemedText style={styles.emoji}>
                 {vibe.emoji}
               </ThemedText>
-              <ThemedText style={{ fontSize: 24, color: Color(vibe.color).isDark() ? '#f2f2f2' : '#121212' }}>
+              <ThemedText style={styles.vibeText}>
                 {vibe.text}
               </ThemedText>
               <ThemedText style={[styles.emoji, { opacity: 0 }]}>
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     right: 16,
   },
   vibeButton: {
-    paddingVertical: 30,
+    paddingVertical: 22,
     paddingHorizontal: 10,
     borderRadius: 10,
     flexDirection: 'row',
@@ -169,7 +169,20 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
   },
+  vibeText: {
+    fontSize: 24,
+    color: '#121212',
+    padding: 4,
+    paddingBottom: 8,
+    borderRadius: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    shadowColor: 'rgba(255, 255, 255, 0.6)',
+    shadowOffset: { width: 0, height: 0 },
+    shadowRadius: 10,
+    elevation: 5,
+  },
   emoji: {
     fontSize: 32,
+    marginTop: 4,
   }
 });
