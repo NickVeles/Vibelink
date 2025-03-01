@@ -50,7 +50,7 @@ export default function HomeScreen() {
       <ParallaxScrollView>
       {vibes.map((vibe) => (
         <LinearGradient
-          colors={[ Color(vibe.color).rotate(5).toString(), vibe.color, Color(vibe.color).rotate(-5).toString()]}
+          colors={[ Color(vibe.color).rotate(5).hex(), vibe.color, Color(vibe.color).rotate(-5).hex()]}
           start={[1, 0]}
           end={[0, 0.75]}
           style={{ borderRadius: 10 }}>
