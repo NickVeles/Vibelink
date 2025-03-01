@@ -2,6 +2,8 @@ import * as React from "react"
 import Svg, { Path } from "react-native-svg"
 
 const DEFAULT_SIZE = 24;
+const DEFAULT_STROKE = "#f2f2f2";
+const DEFAULT_STROKE_WIDTH = 1.5;
 
 interface SvgComponentProps {
   height?: number;
@@ -16,8 +18,8 @@ export const LogoTitleIcon = ({ height, width, stroke, strokeWidth }: SvgCompone
     width={width ?? (height ? height / 4 : 256)}
     height={height ?? (width ? width * 4 : 64)}
     viewBox="0 0 67.733334 16.933333"
-    stroke={stroke ?? "#f2f2f2"}
-    strokeWidth={strokeWidth ?? 1.5}
+    stroke={stroke ?? DEFAULT_STROKE}
+    strokeWidth={strokeWidth ?? DEFAULT_STROKE_WIDTH}
     fill="none"
     alt="LogoTitle"
     {...props}
@@ -36,8 +38,8 @@ export const SettingsIcon = ({ height, width, stroke, strokeWidth }: SvgComponen
     width={width ?? height ?? DEFAULT_SIZE}
     height={height ?? width ?? DEFAULT_SIZE}
     viewBox="0 0 24 24"
-    stroke={stroke ?? "#f2f2f2"}
-    strokeWidth={strokeWidth ?? 1.5}
+    stroke={stroke ?? DEFAULT_STROKE}
+    strokeWidth={strokeWidth ?? DEFAULT_STROKE_WIDTH}
     fill="none"
     alt="Settings"
     {...props}
@@ -61,8 +63,8 @@ export const AddIcon = ({ height, width, stroke, strokeWidth }: SvgComponentProp
     width={width ?? height ?? DEFAULT_SIZE}
     height={height ?? width ?? DEFAULT_SIZE}
     viewBox="0 0 24 24"
-    strokeWidth={strokeWidth ?? 1.5}
-    stroke={stroke ?? "#f2f2f2"}
+    stroke={stroke ?? DEFAULT_STROKE}
+    strokeWidth={strokeWidth ?? DEFAULT_STROKE_WIDTH}
     fill="none"
     alt="Add"
     {...props}
@@ -81,8 +83,8 @@ export const BackIcon = ({ height, width, stroke, strokeWidth }: SvgComponentPro
     width={width ?? height ?? DEFAULT_SIZE}
     height={height ?? width ?? DEFAULT_SIZE}
     viewBox="0 0 24 24"
-    strokeWidth={strokeWidth ?? 1.5}
-    stroke={stroke ?? "currentColor"}
+    stroke={stroke ?? DEFAULT_STROKE}
+    strokeWidth={strokeWidth ?? DEFAULT_STROKE_WIDTH}
     fill="none"
     alt="Back"
     {...props}
