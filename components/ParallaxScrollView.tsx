@@ -48,6 +48,6 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 16,
     overflow: 'hidden',
-    backgroundColor: '#f9f9f9',
+    backgroundColor: 'transparent',
   },
 });
