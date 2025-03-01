@@ -1,6 +1,8 @@
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
 
+const DEFAULT_SIZE = 24;
+
 interface SvgComponentProps {
   height?: number;
   width?: number;
@@ -31,8 +33,8 @@ export const LogoTitleIcon = ({ height, width, stroke, strokeWidth }: SvgCompone
 export const SettingsIcon = ({ height, width, stroke, strokeWidth }: SvgComponentProps, props: any) => (
     <Svg
     xmlns="http://www.w3.org/2000/svg"
-    width={width ?? height ?? 24}
-    height={height ?? width ?? 24}
+    width={width ?? height ?? DEFAULT_SIZE}
+    height={height ?? width ?? DEFAULT_SIZE}
     viewBox="0 0 24 24"
     stroke={stroke ?? "#f2f2f2"}
     strokeWidth={strokeWidth ?? 1.5}
@@ -56,8 +58,8 @@ export const SettingsIcon = ({ height, width, stroke, strokeWidth }: SvgComponen
 export const AddIcon = ({ height, width, stroke, strokeWidth }: SvgComponentProps, props: any) => (
     <Svg
     xmlns="http://www.w3.org/2000/svg"
-    height={height ?? 24}
-    width={width ?? 24}
+    width={width ?? height ?? DEFAULT_SIZE}
+    height={height ?? width ?? DEFAULT_SIZE}
     viewBox="0 0 24 24"
     strokeWidth={strokeWidth ?? 1.5}
     stroke={stroke ?? "#f2f2f2"}
