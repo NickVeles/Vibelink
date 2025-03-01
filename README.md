@@ -2,7 +2,7 @@
 - [x] Remove the nav bar and the Explore tab
 - [ ] Add the add/edit vibe screen/popup
 - [ ] Add cooldown to the vibe buttons
-- [ ] Add context window to the vibe buttons
+- [x] Add context window to the vibe buttons
 - [ ] Add the button press animation
 - [ ] Add the settings screen
 
