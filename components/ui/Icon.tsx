@@ -96,3 +96,23 @@ export const BackIcon = ({ height, width, stroke, strokeWidth }: SvgComponentPro
     />
   </Svg>
 )
+
+export const CheckIcon = ({ height, width, stroke, strokeWidth }: SvgComponentProps, props: any) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width ?? height ?? DEFAULT_SIZE}
+    height={height ?? width ?? DEFAULT_SIZE}
+    viewBox="0 0 24 24"
+    stroke={stroke ?? DEFAULT_STROKE}
+    strokeWidth={strokeWidth ?? DEFAULT_STROKE_WIDTH}
+    fill="none"
+    alt="Check"
+    {...props}
+  >
+    <Path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="m4.5 12.75 6 6 9-13.5"
+    />
+  </Svg>
+)
