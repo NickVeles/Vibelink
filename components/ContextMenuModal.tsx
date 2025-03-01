@@ -58,14 +58,17 @@ export const ContextMenuModal: React.FC<ContextMenuModalProps> = ({
             <EditIcon height={24} width={24} stroke="#121212" />
             <Text style={styles.optionText}>Edit</Text>
           </TouchableOpacity>
+          <View style={styles.spacer} />
           <TouchableOpacity style={styles.option} onPress={handleMoveUp}>
             <ChevronUpIcon height={24} width={24} stroke="#121212" />
             <Text style={styles.optionText}>Move up</Text>
           </TouchableOpacity>
+          <View style={styles.spacer} />
           <TouchableOpacity style={styles.option} onPress={handleMoveDown}>
             <ChevronDownIcon height={24} width={24} stroke="#121212" />
             <Text style={styles.optionText}>Move down</Text>
           </TouchableOpacity>
+          <View style={styles.spacer} />
           <TouchableOpacity style={styles.option} onPress={handleDelete}>
             <TrashIcon height={24} width={24} stroke="#121212" />
             <Text style={styles.optionText}>Delete</Text>
@@ -99,5 +102,10 @@ const styles = StyleSheet.create({
   optionText: {
     marginLeft: 10,
     fontSize: 16,
+  },
+  spacer: {
+    height: 1,
+    width: '100%',
+    backgroundColor: 'rgba(75, 75, 75, 0.1)',
   },
 });
