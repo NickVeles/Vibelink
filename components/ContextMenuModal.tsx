@@ -65,7 +65,7 @@ export const ContextMenuModal: React.FC<ContextMenuModalProps> = ({
         <TouchableWithoutFeedback>
           <View style={styles.modalWrapper}>
             {/* For some mindboggling reason this View has to be wrapped
-                with a custom wrapper so TWF wouldn't shrink everything?
+                with another View so that TWF wouldn't shrink everything?
                 I have no idea... */}
             <View style={styles.modal}>
               <TouchableOpacity style={styles.option} onPress={handleEdit}>
