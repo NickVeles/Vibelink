@@ -177,6 +177,26 @@ export const CheckIcon = ({ height, width, stroke, strokeWidth }: SvgComponentPr
   </Svg>
 )
 
+export const XMarkIcon = ({ height, width, stroke, strokeWidth }: SvgComponentProps, props: any) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width ?? height ?? DEFAULT_SIZE}
+    height={height ?? width ?? DEFAULT_SIZE}
+    viewBox="0 0 24 24"
+    stroke={stroke ?? DEFAULT_STROKE}
+    strokeWidth={strokeWidth ?? DEFAULT_STROKE_WIDTH}
+    fill="none"
+    alt="X Mark"
+    {...props}
+  >
+    <Path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M6 18 18 6M6 6l12 12"
+    />
+  </Svg>
+)
+
 export const TrashIcon = ({ height, width, stroke, strokeWidth }: SvgComponentProps, props: any) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
