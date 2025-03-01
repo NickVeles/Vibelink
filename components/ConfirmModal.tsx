@@ -5,8 +5,8 @@ import { CheckIcon, XMarkIcon } from '@/components/ui/Icon';
 interface ConfirmModalProps {
   visible: boolean;
   title: string;
-  cancelText: string;
-  acceptText: string;
+  cancelText?: string;
+  acceptText?: string;
   onConfirm: () => void;
   onClose: () => void;
 }
@@ -43,11 +43,11 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
           <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={handleClose}>
               <XMarkIcon height={24} width={24} stroke="#121212" />
-              <Text style={styles.buttonText}>{cancelText}</Text>
+              {cancelText && <Text style={styles.buttonText}>{cancelText}</Text>}
             </TouchableOpacity>
             <TouchableOpacity style={styles.button} onPress={handleConfirm}>
               <CheckIcon height={24} width={24} stroke="#121212" />
-              <Text style={styles.buttonText}>{acceptText}</Text>
+              {acceptText && <Text style={styles.buttonText}>{acceptText}</Text>}
             </TouchableOpacity>
           </View>
         </View>
@@ -75,21 +75,26 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginBottom: 10,
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    gap: 10,
     width: '100%',
   },
   button: {
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     paddingVertical: 10,
     paddingHorizontal: 20,
+    borderWidth: 1,
+    borderColor: 'rgba(75, 75, 75, 0.1)',
+    borderRadius: 5,
   },
   buttonText: {
-    marginLeft: 10,
     fontSize: 16,
+    marginLeft: 10,
   },
 });
