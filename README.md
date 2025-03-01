@@ -1,10 +1,10 @@
 
 - [x] Remove the nav bar and the Explore tab
-- [ ] Add the add/edit vibe screen/popup
-- [ ] Add cooldown to the vibe buttons
+- [x] Add cooldown to the vibe buttons
 - [x] Add context window to the vibe buttons
-- [ ] Add the button press animation
+- [ ] Add the add/edit vibe screen
 - [ ] Add the settings screen
+- [ ] Add the button press raindrop animation
 
 # Welcome to your Expo app 👋
 
