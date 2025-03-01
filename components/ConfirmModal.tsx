@@ -68,13 +68,13 @@ const styles = StyleSheet.create({
     maxWidth: 300,
     backgroundColor: '#f9f9f9',
     borderRadius: 10,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    padding: 10,
     alignItems: 'center',
   },
   title: {
     fontSize: 18,
     fontWeight: 'bold',
+    paddingHorizontal: 10,
     marginBottom: 10,
   },
   buttonContainer: {
