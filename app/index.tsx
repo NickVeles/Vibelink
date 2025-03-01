@@ -33,7 +33,7 @@ export default function HomeScreen() {
       id: uuidv4(),
       text: 'Happy',
       emoji: '😊',
-      color: '#ff6f61',
+      color: Color('red').rotate(Math.random() * 360).hex(),
       isConfirmable: true,
     };
 
