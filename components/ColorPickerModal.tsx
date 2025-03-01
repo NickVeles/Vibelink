@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, View, StyleSheet, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import {
+  Modal,
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import ColorPicker, { Panel1, HueSlider } from 'reanimated-color-picker';
 import type { returnedResults } from 'reanimated-color-picker';
 import { CheckIcon } from '@/components/ui/Icon';
@@ -43,10 +49,19 @@ export const ConfirmModal: React.FC<ColorPickerModalProps> = ({
 
   return (
     <Modal visible={isVisible} transparent={true} animationType="slide">
-      <TouchableOpacity style={styles.overlay} onPress={handleClose} activeOpacity={1}>
+      <TouchableOpacity
+        style={styles.overlay}
+        onPress={handleClose}
+        activeOpacity={1}
+      >
         <TouchableWithoutFeedback>
           <View style={styles.modal}>
-            <ColorPicker value={selectedColor} sliderThickness={20} thumbSize={24} onChange={handleColorChange}>
+            <ColorPicker
+              value={selectedColor}
+              sliderThickness={20}
+              thumbSize={24}
+              onChange={handleColorChange}
+            >
               <Panel1 />
               <HueSlider />
             </ColorPicker>
