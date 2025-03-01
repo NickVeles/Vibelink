@@ -14,9 +14,12 @@ import { AddIcon } from '@/components/ui/Icon';
 import { Vibe } from '@/models/Vibe';
 import { getVibes, saveVibes } from '@/utils/storage';
 import Color from 'color';
+import { ContextMenuModal } from '@/components/ContextMenuModal';
 
 export default function HomeScreen() {
   const [vibes, setVibes] = useState<Vibe[]>([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedVibe, setSelectedVibe] = useState<Vibe | null>(null);
 
   useEffect(() => {
     const loadVibes = async () => {
@@ -27,7 +30,6 @@ export default function HomeScreen() {
     loadVibes();
   }, []);
 
-  //TODO: temp
   const addVibe = async () => {
     const newVibe: Vibe = {
       id: uuidv4(),
@@ -42,33 +44,75 @@ export default function HomeScreen() {
     await saveVibes(updatedVibes);
   };
 
+  const handleEdit = () => {
+    // Do nothing for now
+  };
+
+  const handleMoveUp = () => {
+    if (selectedVibe) {
+      const index = vibes.findIndex((vibe) => vibe.id === selectedVibe.id);
+      if (index > 0) {
+        const updatedVibes = [...vibes];
+        [updatedVibes[index - 1], updatedVibes[index]] = [updatedVibes[index], updatedVibes[index - 1]];
+        setVibes(updatedVibes);
+        saveVibes(updatedVibes);
+      }
+    }
+  };
+
+  const handleMoveDown = () => {
+    if (selectedVibe) {
+      const index = vibes.findIndex((vibe) => vibe.id === selectedVibe.id);
+      if (index < vibes.length - 1) {
+        const updatedVibes = [...vibes];
+        [updatedVibes[index + 1], updatedVibes[index]] = [updatedVibes[index], updatedVibes[index + 1]];
+        setVibes(updatedVibes);
+        saveVibes(updatedVibes);
+      }
+    }
+  };
+
+  const handleDelete = () => {
+    if (selectedVibe) {
+      const updatedVibes = vibes.filter((vibe) => vibe.id !== selectedVibe.id);
+      setVibes(updatedVibes);
+      saveVibes(updatedVibes);
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <Header />
 
       {/* Vibe buttons */}
       <ParallaxScrollView>
-      {vibes.map((vibe) => (
-        <LinearGradient
-          colors={[ Color(vibe.color).rotate(5).hex(), vibe.color, Color(vibe.color).rotate(-5).hex()]}
-          start={[1, 0]}
-          end={[0, 0.75]}
-          style={{ borderRadius: 10 }}>
-          <TouchableOpacity key={vibe.id} style={styles.vibeButton}>
-
-            {/* Button Content */}
-            <ThemedText style={{ fontSize: 32 }}>
-              {vibe.emoji}
-            </ThemedText>
-            <ThemedText style={{ fontSize: 24, color: Color(vibe.color).isDark() ? '#f2f2f2' : '#121212' }}>
-              {vibe.text}
-            </ThemedText>
-            <ThemedText style={{ fontSize: 32, opacity: 0 }}>
-              {vibe.emoji}
-            </ThemedText>
-          </TouchableOpacity>
-        </LinearGradient>
-      ))}
+        {vibes.map((vibe) => (
+          <LinearGradient
+            key={vibe.id}
+            colors={[Color(vibe.color).rotate(5).hex(), vibe.color, Color(vibe.color).rotate(-5).hex()]}
+            start={[1, 0]}
+            end={[0, 0.75]}
+            style={{ borderRadius: 10 }}>
+            <TouchableOpacity
+              style={styles.vibeButton}
+              onLongPress={() => {
+                setSelectedVibe(vibe);
+                setModalVisible(true);
+              }}
+            >
+              {/* Button Content */}
+              <ThemedText style={styles.emoji}>
+                {vibe.emoji}
+              </ThemedText>
+              <ThemedText style={{ fontSize: 24, color: Color(vibe.color).isDark() ? '#f2f2f2' : '#121212' }}>
+                {vibe.text}
+              </ThemedText>
+              <ThemedText style={[styles.emoji, { opacity: 0 }]}>
+                {vibe.emoji}
+              </ThemedText>
+            </TouchableOpacity>
+          </LinearGradient>
+        ))}
       </ParallaxScrollView>
 
       {/* Add button */}
@@ -78,9 +122,20 @@ export default function HomeScreen() {
           start={[0, 1]}
           end={[1, 0]}
           style={{ borderRadius: '50%' }}>
-          <AddIcon height={50} width={50}/>
+          <AddIcon height={50} width={50} />
         </LinearGradient>
       </TouchableOpacity>
+
+      {/* Context Menu Modal */}
+      {selectedVibe && (
+        <ContextMenuModal
+          visible={modalVisible}
+          onEdit={handleEdit}
+          onMoveUp={handleMoveUp}
+          onMoveDown={handleMoveDown}
+          onDelete={handleDelete}
+        />
+      )}
     </View>
   );
 }
@@ -108,4 +163,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
     elevation: 5,
   },
+  emoji: {
+    fontSize: 32,
+  }
 });
