@@ -8,6 +8,7 @@ interface ContextMenuModalProps {
   onMoveUp: () => void;
   onMoveDown: () => void;
   onDelete: () => void;
+  onClose: () => void;
 }
 
 export const ContextMenuModal: React.FC<ContextMenuModalProps> = ({
@@ -16,6 +17,7 @@ export const ContextMenuModal: React.FC<ContextMenuModalProps> = ({
   onMoveUp,
   onMoveDown,
   onDelete,
+  onClose,
 }) => {
   const [isVisible, setIsVisible] = useState(visible);
 
@@ -25,6 +27,7 @@ export const ContextMenuModal: React.FC<ContextMenuModalProps> = ({
 
   const handleClose = () => {
     setIsVisible(false);
+    onClose();
   };
 
   const handleEdit = () => {

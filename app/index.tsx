@@ -80,6 +80,11 @@ export default function HomeScreen() {
     }
   };
 
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedVibe(null);
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <Header />
@@ -134,6 +139,7 @@ export default function HomeScreen() {
           onMoveUp={handleMoveUp}
           onMoveDown={handleMoveDown}
           onDelete={handleDelete}
+          onClose={closeModal}
         />
       )}
     </View>
