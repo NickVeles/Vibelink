@@ -3,6 +3,7 @@ import {
   StyleSheet,
   View,
   TouchableOpacity,
+  Animated, // Import Animated from react-native
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { v4 as uuidv4 } from 'uuid';
@@ -21,6 +22,8 @@ export default function HomeScreen() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedVibe, setSelectedVibe] = useState<Vibe | null>(null);
   const [maxTextWidth, setMaxTextWidth] = useState(0);
+  const [buttonsDisabled, setButtonsDisabled] = useState(false);
+  const cooldownWidth = useRef(new Animated.Value(100)).current; // Initialize Animated.Value
 
   useEffect(() => {
     const loadVibes = async () => {
@@ -30,6 +33,16 @@ export default function HomeScreen() {
 
     loadVibes();
   }, []);
+
+  useEffect(() => {
+    if (buttonsDisabled) {
+      Animated.timing(cooldownWidth, {
+        toValue: 0,
+        duration: 3000,
+        useNativeDriver: false,
+      }).start(() => cooldownWidth.setValue(100));
+    }
+  }, [buttonsDisabled]);
 
   const addVibe = async () => {
     const newVibe: Vibe = {
@@ -98,9 +111,14 @@ export default function HomeScreen() {
             colors={[Color(vibe.color).rotate(8).hex(), vibe.color, Color(vibe.color).rotate(-8).hex()]}
             start={[1, 0]}
             end={[0, 0.75]}
-            style={{ borderRadius: 10 }}>
+            style={{ borderRadius: 10, opacity: buttonsDisabled ? 0.5 : 1 }}>
             <TouchableOpacity
               style={styles.vibeButton}
+              onPress={() => {
+                setSelectedVibe(vibe);
+                setButtonsDisabled(true);
+                setTimeout(() => setButtonsDisabled(false), 3000);
+              }}
               onLongPress={() => {
                 setSelectedVibe(vibe);
                 setModalVisible(true);
@@ -110,6 +128,7 @@ export default function HomeScreen() {
                 const { width } = event.nativeEvent.layout;
                 setMaxTextWidth(width - 128);
               }}
+              disabled={buttonsDisabled}
             >
               {/* Button Content */}
               <ThemedText style={styles.emoji}>
@@ -136,6 +155,21 @@ export default function HomeScreen() {
           <AddIcon height={50} width={50} />
         </LinearGradient>
       </TouchableOpacity>
+
+      {/* Cooldown indicator */}
+      {buttonsDisabled && (
+        <Animated.View style={[styles.cooldownIndicator, { width: cooldownWidth.interpolate({
+          inputRange: [0, 100],
+          outputRange: ['0%', '100%'],
+        }) }]}>
+          <LinearGradient
+            colors={[Color(selectedVibe!.color).rotate(8).hex(), selectedVibe!.color, Color(selectedVibe!.color).rotate(-8).hex()]}
+            start={[1, 0]}
+            end={[0, 0.75]}
+            style={{ flex: 1 }}
+          />
+        </Animated.View>
+      )}
 
       {/* Context Menu Modal */}
       {selectedVibe && (
@@ -191,5 +225,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 10,
     elevation: 5,
+  },
+  cooldownIndicator: {
+    position: 'absolute',
+    height: 4,
+    width: '100%',
+    bottom: 0,
   },
 });
