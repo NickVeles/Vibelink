@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { Modal, View, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback } from 'react-native';
 import {
   EditIcon,
   ChevronUpIcon,
@@ -62,27 +62,34 @@ export const ContextMenuModal: React.FC<ContextMenuModalProps> = ({
         onPress={handleClose}
         activeOpacity={1}
       >
-        <View style={styles.modal}>
-          <TouchableOpacity style={styles.option} onPress={handleEdit}>
-            <EditIcon height={24} width={24} stroke="#121212" />
-            <Text style={styles.optionText}>Edit</Text>
-          </TouchableOpacity>
-          <View style={styles.spacer} />
-          <TouchableOpacity style={styles.option} onPress={handleMoveUp}>
-            <ChevronUpIcon height={24} width={24} stroke="#121212" />
-            <Text style={styles.optionText}>Move up</Text>
-          </TouchableOpacity>
-          <View style={styles.spacer} />
-          <TouchableOpacity style={styles.option} onPress={handleMoveDown}>
-            <ChevronDownIcon height={24} width={24} stroke="#121212" />
-            <Text style={styles.optionText}>Move down</Text>
-          </TouchableOpacity>
-          <View style={styles.spacer} />
-          <TouchableOpacity style={styles.option} onPress={handleDelete}>
-            <TrashIcon height={24} width={24} stroke="#121212" />
-            <Text style={styles.optionText}>Delete</Text>
-          </TouchableOpacity>
-        </View>
+        <TouchableWithoutFeedback>
+          <View style={styles.modalWrapper}>
+            {/* For some mindboggling reason this View has to be wrapped
+                with a custom wrapper so TWF wouldn't shrink everything?
+                I have no idea... */}
+            <View style={styles.modal}>
+              <TouchableOpacity style={styles.option} onPress={handleEdit}>
+                <EditIcon height={24} width={24} stroke="#121212" />
+                <Text style={styles.optionText}>Edit</Text>
+              </TouchableOpacity>
+              <View style={styles.spacer} />
+              <TouchableOpacity style={styles.option} onPress={handleMoveUp}>
+                <ChevronUpIcon height={24} width={24} stroke="#121212" />
+                <Text style={styles.optionText}>Move up</Text>
+              </TouchableOpacity>
+              <View style={styles.spacer} />
+              <TouchableOpacity style={styles.option} onPress={handleMoveDown}>
+                <ChevronDownIcon height={24} width={24} stroke="#121212" />
+                <Text style={styles.optionText}>Move down</Text>
+              </TouchableOpacity>
+              <View style={styles.spacer} />
+              <TouchableOpacity style={styles.option} onPress={handleDelete}>
+                <TrashIcon height={24} width={24} stroke="#121212" />
+                <Text style={styles.optionText}>Delete</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
       </TouchableOpacity>
     </Modal>
   );
@@ -95,9 +102,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  modal: {
+  modalWrapper: {
     width: '80%',
     maxWidth: 300,
+  },
+  modal: {
     backgroundColor: '#f9f9f9',
     borderRadius: 10,
     paddingHorizontal: 20,
