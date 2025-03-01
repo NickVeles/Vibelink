@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { EditIcon, ChevronUpIcon, ChevronDownIcon, TrashIcon } from '@/components/ui/Icon';
+import {
+  EditIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
+  TrashIcon,
+} from '@/components/ui/Icon';
 
 interface ContextMenuModalProps {
   visible: boolean;
@@ -52,7 +57,11 @@ export const ContextMenuModal: React.FC<ContextMenuModalProps> = ({
 
   return (
     <Modal transparent visible={isVisible} animationType="fade">
-      <TouchableOpacity style={styles.overlay} onPress={handleClose} activeOpacity={1}>
+      <TouchableOpacity
+        style={styles.overlay}
+        onPress={handleClose}
+        activeOpacity={1}
+      >
         <View style={styles.modal}>
           <TouchableOpacity style={styles.option} onPress={handleEdit}>
             <EditIcon height={24} width={24} stroke="#121212" />
