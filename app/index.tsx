@@ -212,8 +212,8 @@ export default function HomeScreen() {
         <ConfirmModal
           visible={confirmModalVisible}
           title="Are you sure you want to send this vibe?"
-          cancelText="asd"
-          acceptText="asd"
+          acceptText="Yes"
+          cancelText="No"
           onConfirm={handleConfirm}
           onClose={closeConfirmModal}
         />
