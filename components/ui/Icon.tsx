@@ -74,3 +74,23 @@ export const AddIcon = ({ height, width, stroke, strokeWidth }: SvgComponentProp
     />
   </Svg>
 )
+
+export const BackIcon = ({ height, width, stroke, strokeWidth }: SvgComponentProps, props: any) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width ?? height ?? DEFAULT_SIZE}
+    height={height ?? width ?? DEFAULT_SIZE}
+    viewBox="0 0 24 24"
+    strokeWidth={strokeWidth ?? 1.5}
+    stroke={stroke ?? "currentColor"}
+    fill="none"
+    alt="Back"
+    {...props}
+  >
+    <Path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 0 1 0 12h-3"
+    />
+  </Svg>
+)
