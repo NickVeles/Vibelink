@@ -52,19 +52,19 @@ export const ContextMenuModal: React.FC<ContextMenuModalProps> = ({
       <TouchableOpacity style={styles.overlay} onPress={handleClose} activeOpacity={1}>
         <View style={styles.modal}>
           <TouchableOpacity style={styles.option} onPress={handleEdit}>
-            <EditIcon height={24} width={24} />
+            <EditIcon height={24} width={24} stroke="#121212" />
             <Text style={styles.optionText}>Edit</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option} onPress={handleMoveUp}>
-            <ChevronUpIcon height={24} width={24} />
+            <ChevronUpIcon height={24} width={24} stroke="#121212" />
             <Text style={styles.optionText}>Move up</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option} onPress={handleMoveDown}>
-            <ChevronDownIcon height={24} width={24} />
+            <ChevronDownIcon height={24} width={24} stroke="#121212" />
             <Text style={styles.optionText}>Move down</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.option} onPress={handleDelete}>
-            <TrashIcon height={24} width={24} />
+            <TrashIcon height={24} width={24} stroke="#121212" />
             <Text style={styles.optionText}>Delete</Text>
           </TouchableOpacity>
         </View>
