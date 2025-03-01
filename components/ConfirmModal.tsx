@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  Modal,
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { CheckIcon, XMarkIcon } from '@/components/ui/Icon';
 
 interface ConfirmModalProps {
@@ -37,20 +44,35 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({
 
   return (
     <Modal transparent visible={isVisible} animationType="none">
-      <TouchableOpacity style={styles.overlay} onPress={handleClose} activeOpacity={1}>
-        <View style={styles.modal}>
-          <Text style={styles.title}>{title}</Text>
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={handleConfirm}>
-              <CheckIcon height={24} width={24} stroke="#121212" />
-              {acceptText && <Text style={styles.buttonText}>{acceptText}</Text>}
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={handleClose}>
-              <XMarkIcon height={24} width={24} stroke="#f2f2f2" />
-              {cancelText && <Text style={[styles.buttonText, { color: '#f2f2f2' }]}>{cancelText}</Text>}
-            </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.overlay}
+        onPress={handleClose}
+        activeOpacity={1}
+      >
+        <TouchableWithoutFeedback>
+          <View style={styles.modal}>
+            <Text style={styles.title}>{title}</Text>
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity style={styles.button} onPress={handleConfirm}>
+                <CheckIcon height={24} width={24} stroke="#121212" />
+                {acceptText && (
+                  <Text style={styles.buttonText}>{acceptText}</Text>
+                )}
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.cancelButton]}
+                onPress={handleClose}
+              >
+                <XMarkIcon height={24} width={24} stroke="#f2f2f2" />
+                {cancelText && (
+                  <Text style={[styles.buttonText, { color: '#f2f2f2' }]}>
+                    {cancelText}
+                  </Text>
+                )}
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </TouchableOpacity>
     </Modal>
   );
