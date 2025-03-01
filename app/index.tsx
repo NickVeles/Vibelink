@@ -20,6 +20,7 @@ export default function HomeScreen() {
   const [vibes, setVibes] = useState<Vibe[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedVibe, setSelectedVibe] = useState<Vibe | null>(null);
+  const [maxTextWidth, setMaxTextWidth] = useState(0);
 
   useEffect(() => {
     const loadVibes = async () => {
@@ -33,7 +34,7 @@ export default function HomeScreen() {
   const addVibe = async () => {
     const newVibe: Vibe = {
       id: uuidv4(),
-      text: 'Happy',
+      text: 'This is some lengthy dummy text to test the layout of the vibe button.',
       emoji: '😊',
       color: Color('red').rotate(Math.random() * 360).hex(),
       isConfirmable: true,
@@ -104,12 +105,17 @@ export default function HomeScreen() {
                 setSelectedVibe(vibe);
                 setModalVisible(true);
               }}
+              onLayout={(event) => {
+                // make space for the emojis
+                const { width } = event.nativeEvent.layout;
+                setMaxTextWidth(width - 128);
+              }}
             >
               {/* Button Content */}
               <ThemedText style={styles.emoji}>
                 {vibe.emoji}
               </ThemedText>
-              <ThemedText style={styles.vibeText}>
+              <ThemedText style={[styles.vibeText, { maxWidth: maxTextWidth }]}>
                 {vibe.text}
               </ThemedText>
               <ThemedText style={[styles.emoji, { opacity: 0 }]}>
@@ -163,14 +169,19 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 5,
   },
+  emoji: {
+    fontSize: 32,
+  },
   vibeText: {
     fontSize: 24,
+    textAlign: 'center',
     color: '#121212',
     padding: 4,
     paddingBottom: 8,
@@ -181,8 +192,4 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
-  emoji: {
-    fontSize: 32,
-    marginTop: 4,
-  }
 });
