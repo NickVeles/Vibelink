@@ -6,6 +6,7 @@ interface FloatingButtonProps {
   color1: string;
   color2: string;
   content: React.ReactNode;
+  disabled?: boolean;
 }
 
 const FloatingButton: React.FC<FloatingButtonProps> = ({
@@ -13,9 +14,14 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({
   color1,
   color2,
   content,
+  disabled,
 }) => {
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
+    <TouchableOpacity
+      style={[styles.button, { opacity: disabled ? 0.5 : 1 }]}
+      onPress={onPress}
+      disabled={disabled}
+    >
       <LinearGradient
         colors={[color1, color2]}
         start={[0, 1]}
