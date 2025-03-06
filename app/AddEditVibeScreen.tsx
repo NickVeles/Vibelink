@@ -25,6 +25,8 @@ interface EditVibeScreenProps {
   isNew: boolean;
 }
 
+//!VIBE IS UNDEFINED!
+
 export default function AddEditVibeScreen({
   vibe,
   isNew,
