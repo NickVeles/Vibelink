@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Vibe } from '@/models/Vibe';
 import Header from '@/components/Header';
@@ -8,6 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ConfirmModal } from '@/components/ConfirmModal';
 import FloatingButton from '@/components/ui/FloatingButton';
+import Color from 'color';
 
 interface EditVibeScreenProps {
   vibe: Vibe;
@@ -26,6 +27,7 @@ export default function AddEditVibeScreen({
   const [color, setColor] = useState(vibe.color);
   const [isConfirmable, setIsConfirmable] = useState(vibe.isConfirmable);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false); // State for ConfirmModal visibility
+  const [maxTextWidth, setMaxTextWidth] = useState(0);
 
   const closeConfirmModal = () => {
     setConfirmModalVisible(false);
@@ -62,7 +64,29 @@ export default function AddEditVibeScreen({
       />
 
       {/* Content */}
-      <ParallaxScrollView></ParallaxScrollView>
+      <ParallaxScrollView>
+        {/* Preview */}
+        <LinearGradient
+          colors={[Color(color).rotate(8).hex(), color, Color(color).rotate(-8).hex()]}
+          start={[1, 0]}
+          end={[0, 0.75]}
+          onLayout={(event) => {
+            // make space for the emojis
+            const { width } = event.nativeEvent.layout;
+            setMaxTextWidth(width - 128);
+          }}>
+            {/* Button Content */}
+            <Text style={styles.emoji}>
+              {emoji}
+            </Text>
+            <Text style={[styles.vibeText, { maxWidth: maxTextWidth }]}>
+              {text}
+            </Text>
+            <Text style={[styles.emoji, { opacity: 0 }]}>
+              {emoji}
+            </Text>
+        </LinearGradient>
+      </ParallaxScrollView>
 
       {/* Save button */}
       <FloatingButton 
@@ -95,5 +119,34 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     bottom: 16,
     right: 16,
+  },
+  vibeButton: {
+    paddingVertical: 22,
+    paddingHorizontal: 10,
+    borderRadius: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+  emoji: {
+    fontSize: 32,
+  },
+  vibeText: {
+    fontSize: 24,
+    textAlign: 'center',
+    color: '#121212',
+    padding: 4,
+    paddingBottom: 8,
+    borderRadius: 5,
+    backgroundColor: 'rgba(255, 255, 255, 0.6)',
+    shadowColor: 'rgba(255, 255, 255, 0.6)',
+    shadowOffset: { width: 0, height: 0 },
+    shadowRadius: 10,
+    elevation: 5,
   },
 });
