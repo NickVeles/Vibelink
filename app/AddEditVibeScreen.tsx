@@ -16,6 +16,7 @@ import { ConfirmModal } from '@/components/ConfirmModal';
 import FloatingButton from '@/components/ui/FloatingButton';
 import Color from 'color';
 import EmojiPicker, { type EmojiType } from 'rn-emoji-keyboard';
+import { ColorPickerModal } from '@/components/ColorPickerModal';
 
 interface EditVibeScreenProps {
   vibe: Vibe;
@@ -36,6 +37,7 @@ export default function AddEditVibeScreen({
   const [confirmModalVisible, setConfirmModalVisible] = useState(false); // State for ConfirmModal visibility
   const [maxTextWidth, setMaxTextWidth] = useState(0);
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
+  const [colorPickerVisible, setColorPickerVisible] = useState(false);
 
   const [isTextError, setIsTextError] = useState(false);
   const [textError, setTextError] = useState('');
@@ -72,6 +74,11 @@ export default function AddEditVibeScreen({
 
     // Check for empty emoji
     setIsEmojiError(emoji == '');
+  };
+
+  const handleColorSelect = (selectedColor: string) => {
+    setColor(selectedColor);
+    setColorPickerVisible(false);
   };
 
   const handleLeave = async () => {
@@ -157,7 +164,7 @@ export default function AddEditVibeScreen({
 
         {/* Emoji */}
         <View style={styles.inputContainer}>
-          <Text style={styles.label}>Pick an emoji</Text>
+          <Text style={styles.label}>Emoji</Text>
           <TouchableOpacity
             style={styles.input}
             onPress={() => setEmojiPickerVisible(true)}
@@ -175,6 +182,17 @@ export default function AddEditVibeScreen({
             </Text>
           )}
         </View>
+
+        {/* Color Picker */}
+        <View style={styles.inputContainer}>
+          <Text style={styles.label}>Color</Text>
+          <TouchableOpacity
+            style={styles.input}
+            onPress={() => setColorPickerVisible(true)}
+          >
+            <View style={{ flex: 1, backgroundColor: color }} />
+          </TouchableOpacity>
+        </View>
       </ParallaxScrollView>
 
       {/* Save button */}
@@ -184,6 +202,14 @@ export default function AddEditVibeScreen({
         color2="#1b6e13"
         content={<CheckIcon height={50} width={50} />}
         disabled={isSaveButtonDisabled}
+      />
+
+      {/* Color Picker Modal */}
+      <ColorPickerModal
+        visible={colorPickerVisible}
+        color={color}
+        onColorSelect={handleColorSelect}
+        onClose={() => setColorPickerVisible(false)}
       />
 
       {/* Confirm modal */}
