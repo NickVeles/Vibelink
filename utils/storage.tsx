@@ -21,3 +21,22 @@ export const getVibes = async (): Promise<Vibe[]> => {
     return [];
   }
 };
+
+export const saveOrUpdateVibe = async (vibeToSave: Vibe): Promise<void> => {
+  try {
+    const existingVibes = await getVibes();
+    const vibeIndex = existingVibes.findIndex((vibe) => vibe.id === vibeToSave.id);
+
+    if (vibeIndex !== -1) {
+      // Vibe exists, update it
+      existingVibes[vibeIndex] = vibeToSave;
+    } else {
+      // Vibe does not exist, add it
+      existingVibes.push(vibeToSave);
+    }
+
+    await saveVibes(existingVibes);
+  } catch (e) {
+    console.error('Failed to save or update vibe in AsyncStorage', e);
+  }
+};
