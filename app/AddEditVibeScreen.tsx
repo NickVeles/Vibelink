@@ -196,7 +196,6 @@ export default function AddEditVibeScreen({
         </View>
 
         {/* Is Confirmable? */}
-        <View style={styles.inputContainer}>
         <BouncyCheckbox
           size={24}
           fillColor="#b0485b"
@@ -204,9 +203,9 @@ export default function AddEditVibeScreen({
           text="Ask me to confirm before sending the vibe"
           iconStyle={{ borderColor: "#b0485b" }}
           innerIconStyle={{ borderWidth: 2, borderColor: "#f2f2f2" }}
+          style={styles.inputContainer}
           onPress={setIsConfirmable}
         />
-        </View>
       </ParallaxScrollView>
 
       {/* Save button */}
