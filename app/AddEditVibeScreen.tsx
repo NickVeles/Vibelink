@@ -17,6 +17,7 @@ import FloatingButton from '@/components/ui/FloatingButton';
 import Color from 'color';
 import EmojiPicker, { type EmojiType } from 'rn-emoji-keyboard';
 import { ColorPickerModal } from '@/components/ColorPickerModal';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 interface EditVibeScreenProps {
   vibe: Vibe;
@@ -192,6 +193,19 @@ export default function AddEditVibeScreen({
           >
             <View style={{ flex: 1, backgroundColor: color }} />
           </TouchableOpacity>
+        </View>
+
+        {/* Is Confirmable? */}
+        <View style={styles.inputContainer}>
+        <BouncyCheckbox
+          size={24}
+          fillColor="#b0485b"
+          unFillColor="transparent"
+          text="Ask me to confirm before sending the vibe"
+          iconStyle={{ borderColor: "#b0485b" }}
+          innerIconStyle={{ borderWidth: 2, borderColor: "#f2f2f2" }}
+          onPress={setIsConfirmable}
+        />
         </View>
       </ParallaxScrollView>
 
