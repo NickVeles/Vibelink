@@ -21,13 +21,13 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 interface EditVibeScreenProps {
   vibe: Vibe;
-  isDirty: boolean;
+  isNew: boolean;
   onSave: (vibe: Vibe) => void;
 }
 
 export default function AddEditVibeScreen({
   vibe,
-  isDirty,
+  isNew,
   onSave,
 }: EditVibeScreenProps) {
   const router = useRouter();
@@ -83,7 +83,7 @@ export default function AddEditVibeScreen({
   };
 
   const handleLeave = async () => {
-    if (!isDirty) {
+    if (isNew) {
       router.back();
     }
 
