@@ -37,9 +37,9 @@ export default function AddEditVibeScreen({
     }
 
     if (
-      vibe.text == text ||
-      vibe.emoji == emoji ||
-      vibe.color == color ||
+      vibe.text == text &&
+      vibe.emoji == emoji &&
+      vibe.color == color &&
       vibe.isConfirmable == isConfirmable
     ) {
       router.back();
