@@ -18,17 +18,16 @@ import Color from 'color';
 import EmojiPicker, { type EmojiType } from 'rn-emoji-keyboard';
 import { ColorPickerModal } from '@/components/ColorPickerModal';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import { saveOrUpdateVibe } from '@/utils/storage';
 
 interface EditVibeScreenProps {
   vibe: Vibe;
   isNew: boolean;
-  onSave: (vibe: Vibe) => void;
 }
 
 export default function AddEditVibeScreen({
   vibe,
   isNew,
-  onSave,
 }: EditVibeScreenProps) {
   const router = useRouter();
   const [text, setText] = useState(vibe.text);
@@ -107,7 +106,9 @@ export default function AddEditVibeScreen({
       color: color,
       isConfirmable: isConfirmable,
     };
-    onSave(updatedVibe);
+
+    await saveOrUpdateVibe(updatedVibe);
+
     router.back();
   };
 
