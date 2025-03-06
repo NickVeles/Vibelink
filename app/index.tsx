@@ -11,7 +11,7 @@ import { v4 as uuidv4 } from 'uuid';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import Header from '@/components/Header';
-import { AddIcon } from '@/components/ui/Icon';
+import { AddIcon, SettingsIcon } from '@/components/ui/Icon';
 import { Vibe } from '@/models/Vibe';
 import { getVibes, saveVibes } from '@/utils/storage';
 import Color from 'color';
@@ -121,7 +121,9 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      <Header />
+      <Header 
+        leftButton={<SettingsIcon height={32} width={32} />}
+      />
 
       {/* Vibe buttons */}
       <ParallaxScrollView>
