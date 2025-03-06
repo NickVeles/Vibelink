@@ -57,6 +57,26 @@ export const SettingsIcon = ({ height, width, stroke, strokeWidth }: SvgComponen
   </Svg>
 )
 
+export const SaveIcon = ({ height, width, stroke, strokeWidth }: SvgComponentProps, props: any) => (
+  <Svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={width ?? height ?? DEFAULT_SIZE}
+    height={height ?? width ?? DEFAULT_SIZE}
+    viewBox="0 0 24 24"
+    stroke={stroke ?? DEFAULT_STROKE}
+    strokeWidth={strokeWidth ?? DEFAULT_STROKE_WIDTH}
+    fill="none"
+    alt="Save"
+    {...props}
+  >
+    <Path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M6 20.25h12A2.25 2.25 0 0 0 20.25 18V7.5L16.5 3.75H6A2.25 2.25 0 0 0 3.75 6v12A2.25 2.25 0 0 0 6 20.25zm9.75-16.5v5h-9.5v-5zM13 5.5V7m-6.75 4.25h11.5v6.5H6.25Z"
+    />
+  </Svg>
+)
+
 export const AddIcon = ({ height, width, stroke, strokeWidth }: SvgComponentProps, props: any) => (
     <Svg
     xmlns="http://www.w3.org/2000/svg"
