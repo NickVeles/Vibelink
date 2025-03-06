@@ -19,7 +19,7 @@ interface ColorPickerModalProps {
   onClose: () => void;
 }
 
-export const ConfirmModal: React.FC<ColorPickerModalProps> = ({
+export const ColorPickerModal: React.FC<ColorPickerModalProps> = ({
   visible,
   color,
   onColorSelect,
