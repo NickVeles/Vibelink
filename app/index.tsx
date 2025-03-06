@@ -17,6 +17,7 @@ import { getVibes, saveVibes } from '@/utils/storage';
 import Color from 'color';
 import { ContextMenuModal } from '@/components/ContextMenuModal';
 import { ConfirmModal } from '@/components/ConfirmModal'; // Import ConfirmModal
+import FloatingButton from '@/components/ui/FloatingButton';
 
 export default function HomeScreen() {
   const [vibes, setVibes] = useState<Vibe[]>([]);
@@ -172,15 +173,12 @@ export default function HomeScreen() {
       </ParallaxScrollView>
 
       {/* Add button */}
-      <TouchableOpacity style={styles.addButton} onPress={addVibe}>
-        <LinearGradient
-          colors={['#ff6f61', '#b0485b']}
-          start={[0, 1]}
-          end={[1, 0]}
-          style={{ borderRadius: '50%' }}>
-          <AddIcon height={50} width={50} />
-        </LinearGradient>
-      </TouchableOpacity>
+      <FloatingButton 
+        onPress={addVibe}
+        color1="#ff6f61"
+        color2="#b0485b"
+        content={<AddIcon height={50} width={50} />}
+      />
 
       {/* Cooldown indicator */}
       {buttonsDisabled && (
@@ -225,16 +223,6 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  addButton: {
-    position: 'absolute',
-    width: 60,
-    height: 60,
-    borderRadius: '50%',
-    justifyContent: 'center',
-    alignItems: 'center',
-    bottom: 16,
-    right: 16,
-  },
   vibeButton: {
     paddingVertical: 22,
     paddingHorizontal: 10,
