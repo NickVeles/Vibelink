@@ -9,7 +9,7 @@ import {
 import { useRouter } from 'expo-router';
 import { Vibe } from '@/models/Vibe';
 import Header from '@/components/Header';
-import { BackIcon, CheckIcon } from '@/components/ui/Icon';
+import { BackIcon, CheckIcon, SaveIcon } from '@/components/ui/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ConfirmModal } from '@/components/ConfirmModal';
@@ -213,7 +213,7 @@ export default function AddEditVibeScreen({
         onPress={handleSave}
         color1="#3d9f3c"
         color2="#1b6e13"
-        content={<CheckIcon height={50} width={50} />}
+        content={<SaveIcon height={50} width={50} />}
         disabled={isSaveButtonDisabled}
       />
 
