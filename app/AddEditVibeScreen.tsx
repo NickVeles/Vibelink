@@ -7,6 +7,7 @@ import { BackIcon, CheckIcon } from '@/components/ui/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ConfirmModal } from '@/components/ConfirmModal';
+import FloatingButton from '@/components/ui/FloatingButton';
 
 interface EditVibeScreenProps {
   vibe: Vibe;
@@ -64,16 +65,12 @@ export default function AddEditVibeScreen({
       <ParallaxScrollView></ParallaxScrollView>
 
       {/* Save button */}
-      <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
-        <LinearGradient
-          colors={['#3d9f3c', '#1b6e13']}
-          start={[0, 1]}
-          end={[1, 0]}
-          style={{ borderRadius: '50%' }}
-        >
-          <CheckIcon height={50} width={50} />
-        </LinearGradient>
-      </TouchableOpacity>
+      <FloatingButton 
+        onPress={handleSave}
+        color1="#3d9f3c"
+        color2="#1b6e13"
+        content={<CheckIcon height={50} width={50} />}
+      />
 
       {/* Confirm modal */}
       <ConfirmModal
