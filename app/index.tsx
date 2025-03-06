@@ -6,7 +6,9 @@ import {
   Animated, // Import Animated from react-native
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useRouter } from 'expo-router';
 import { v4 as uuidv4 } from 'uuid';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -20,6 +22,7 @@ import { ConfirmModal } from '@/components/ConfirmModal'; // Import ConfirmModal
 import FloatingButton from '@/components/ui/FloatingButton';
 
 export default function HomeScreen() {
+  const router = useRouter();
   const [vibes, setVibes] = useState<Vibe[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false); // State for ConfirmModal visibility
@@ -50,15 +53,19 @@ export default function HomeScreen() {
   const addVibe = async () => {
     const newVibe: Vibe = {
       id: uuidv4(),
-      text: 'This is some lengthy dummy text to test the layout of the vibe button.',
+      text: 'Happy',
       emoji: '😊',
       color: Color('red').rotate(Math.random() * 360).hex(),
       isConfirmable: true,
     };
 
-    const updatedVibes = [...vibes, newVibe];
-    setVibes(updatedVibes);
-    await saveVibes(updatedVibes);
+    router.push({
+      pathname: '/AddEditVibeScreen',
+      params: {
+        vibe: JSON.stringify(newVibe),
+        isNew: 'true',
+      },
+    });
   };
 
   const handleEdit = () => {
