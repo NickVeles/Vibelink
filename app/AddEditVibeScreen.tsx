@@ -70,6 +70,7 @@ export default function AddEditVibeScreen({
           colors={[Color(color).rotate(8).hex(), color, Color(color).rotate(-8).hex()]}
           start={[1, 0]}
           end={[0, 0.75]}
+          style={styles.vibeButton}
           onLayout={(event) => {
             // make space for the emojis
             const { width } = event.nativeEvent.layout;
