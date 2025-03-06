@@ -60,7 +60,7 @@ export default function AddEditVibeScreen({
     <View style={{ flex: 1 }}>
       <Header
         leftButton={<BackIcon width={32} height={32} />}
-        onLeftPress={() => router.back()}
+        onLeftPress={handleLeave}
       />
 
       {/* Content */}
