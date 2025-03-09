@@ -23,7 +23,7 @@ import DataContext from '@/components/DataContext';
 export default function HomeScreen() {
   const router = useRouter();
   const dataContext = useContext(DataContext);
-  const vibes = dataContext?.vibes || [];
+  const vibes = dataContext?.vibes;
 
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false); // State for ConfirmModal visibility
@@ -117,7 +117,7 @@ export default function HomeScreen() {
       {/* Vibe buttons */}
       <ParallaxScrollView>
         {dataContext &&
-          vibes.map((vibe) => (
+          vibes?.map((vibe) => (
             <LinearGradient
               key={vibe.id}
               colors={[
