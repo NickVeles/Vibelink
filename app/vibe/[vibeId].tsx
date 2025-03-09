@@ -273,7 +273,7 @@ export default function VibeEditScreen() {
         visible={confirmModalVisible}
         title="Discard changes?"
         acceptText="Yes"
-        cancelText="No, cancel"
+        cancelText="Cancel"
         onConfirm={() => router.back()}
         onClose={closeConfirmModal}
       />
