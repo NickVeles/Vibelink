@@ -14,7 +14,6 @@ import { ThemedText } from '@/components/ThemedText';
 import Header from '@/components/Header';
 import { AddIcon, SettingsIcon } from '@/components/ui/Icon';
 import { Vibe } from '@/models/Vibe';
-import { getVibes, saveVibes } from '@/utils/storage';
 import Color from 'color';
 import { ContextMenuModal } from '@/components/ContextMenuModal';
 import { ConfirmModal } from '@/components/ConfirmModal'; // Import ConfirmModal
@@ -22,24 +21,16 @@ import FloatingButton from '@/components/ui/FloatingButton';
 import DataContext from '@/components/DataContext';
 
 export default function HomeScreen() {
-  const dataContext = useContext(DataContext);
   const router = useRouter();
-  const [vibes, setVibes] = useState<Vibe[]>([]);
+  const dataContext = useContext(DataContext);
+  const vibes = dataContext?.vibes || [];
+
   const [modalVisible, setModalVisible] = useState(false);
   const [confirmModalVisible, setConfirmModalVisible] = useState(false); // State for ConfirmModal visibility
   const [selectedVibe, setSelectedVibe] = useState<Vibe | null>(null);
   const [maxTextWidth, setMaxTextWidth] = useState(0);
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
   const cooldownWidth = useRef(new Animated.Value(100)).current; // Initialize Animated.Value
-
-  useEffect(() => {
-    const loadVibes = async () => {
-      const storedVibes = await getVibes();
-      setVibes(storedVibes);
-    };
-
-    loadVibes();
-  }, []);
 
   useEffect(() => {
     if (buttonsDisabled) {
@@ -63,39 +54,36 @@ export default function HomeScreen() {
 
   const handleMoveUp = () => {
     if (selectedVibe) {
-      const index = vibes.findIndex((vibe) => vibe.id === selectedVibe.id);
+      const index = vibes!.findIndex((vibe) => vibe.id === selectedVibe.id);
       if (index > 0) {
-        const updatedVibes = [...vibes];
+        const updatedVibes = [...vibes!];
         [updatedVibes[index - 1], updatedVibes[index]] = [
           updatedVibes[index],
           updatedVibes[index - 1],
         ];
-        setVibes(updatedVibes);
-        saveVibes(updatedVibes);
+        dataContext?.updateVibes(updatedVibes);
       }
     }
   };
 
   const handleMoveDown = () => {
     if (selectedVibe) {
-      const index = vibes.findIndex((vibe) => vibe.id === selectedVibe.id);
-      if (index < vibes.length - 1) {
-        const updatedVibes = [...vibes];
+      const index = vibes!.findIndex((vibe) => vibe.id === selectedVibe.id);
+      if (index < vibes!.length - 1) {
+        const updatedVibes = [...vibes!];
         [updatedVibes[index + 1], updatedVibes[index]] = [
           updatedVibes[index],
           updatedVibes[index + 1],
         ];
-        setVibes(updatedVibes);
-        saveVibes(updatedVibes);
+        dataContext?.updateVibes(updatedVibes);
       }
     }
   };
 
   const handleDelete = () => {
     if (selectedVibe) {
-      const updatedVibes = vibes.filter((vibe) => vibe.id !== selectedVibe.id);
-      setVibes(updatedVibes);
-      saveVibes(updatedVibes);
+      const updatedVibes = vibes!.filter((vibe) => vibe.id !== selectedVibe.id);
+      dataContext?.updateVibes(updatedVibes);
     }
   };
 
