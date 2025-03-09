@@ -86,7 +86,7 @@ export default function VibeEditScreen() {
   
   // Check for empty text
   useEffect(() => {
-    if (text.length == 0) {
+    if (text.trim().length == 0) {
       setIsTextError(true);
       setTextError('Your vibe cannot be empty');
     } else {
@@ -176,7 +176,7 @@ export default function VibeEditScreen() {
               {/* Button Content */}
               <Text style={styles.emoji}>{emoji}</Text>
               <Text style={[styles.vibeText, { maxWidth: maxTextWidth }]}>
-                {text? text.trim() : " "}
+                {text.trim()? text.trim() : " "}
               </Text>
               <Text style={[styles.emoji, { opacity: 0 }]}>{emoji}</Text>
             </LinearGradient>
@@ -188,16 +188,15 @@ export default function VibeEditScreen() {
                 value={text}
                 onChangeText={handleChangeText}
                 placeholder="e.g. Happy"
+                placeholderTextColor="#999"
                 style={[
                   styles.input,
                   { borderColor: isTextError ? '#b0485b' : '#424242' },
                 ]}
               />
-              {isTextError && (
-                <Text style={[styles.label, { color: '#b0485b' }]}>
-                  {textError}
-                </Text>
-              )}
+              <Text style={[styles.errorLabel]}>
+                {textError}
+              </Text>
             </View>
 
             {/* Emoji */}
@@ -215,7 +214,7 @@ export default function VibeEditScreen() {
                 onClose={() => setEmojiPickerVisible(false)}
               />
               {isEmojiError && (
-                <Text style={[styles.label, { color: '#b0485b' }]}>
+                <Text style={[styles.errorLabel]}>
                   You have to pick an emoji
                 </Text>
               )}
@@ -239,7 +238,7 @@ export default function VibeEditScreen() {
               unFillColor="transparent"
               text="Ask to confirm before sending"
               iconStyle={{ borderColor: '#b0485b' }}
-              innerIconStyle={{ borderWidth: 2, borderColor: '#12121280' }}
+              innerIconStyle={{ borderWidth: 1, borderColor: '#999' }}
               style={styles.inputContainer}
               onPress={setIsConfirmable}
             />
@@ -329,6 +328,12 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 12,
     color: '#424242',
+    paddingBottom: 2,
+  },
+  errorLabel: {
+    minHeight: 16,
+    fontSize: 12,
+    color: '#b0485b',
   },
   input: {
     padding: 4,
