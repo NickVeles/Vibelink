@@ -9,7 +9,7 @@ import {
 import { useRouter } from 'expo-router';
 import { Vibe } from '@/models/Vibe';
 import Header from '@/components/Header';
-import { BackIcon, CheckIcon, SaveIcon } from '@/components/ui/Icon';
+import { BackIcon, SaveIcon } from '@/components/ui/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ConfirmModal } from '@/components/ConfirmModal';
