@@ -48,7 +48,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = ({
   };
 
   return (
-    <Modal visible={isVisible} transparent={true} animationType="slide">
+    <Modal visible={isVisible} transparent={true} animationType="none">
       <TouchableOpacity
         style={styles.overlay}
         onPress={handleClose}
