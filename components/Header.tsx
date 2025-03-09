@@ -51,11 +51,11 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'space-between',
     padding: '10px',
-    background: 'linear-gradient(225deg, rgb(176, 72, 91), rgb(255, 111, 97))',
+    background: 'linear-gradient(225deg, #b0485b, #ff6f61)',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
   },
   button: {
-    background: 'rgba(176, 72, 91, 0.4)',
+    background: '#b0485b',
     border: 'none',
     borderRadius: '50%',
     padding: 4,
