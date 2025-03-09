@@ -30,7 +30,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const updateVibes = async (updatedVibes: Vibe[]) => {
     await saveVibes(updatedVibes);
-    setVibes(updatedVibes); // No need to re-fetch
+    setVibes(updatedVibes);
   };
 
   return (
