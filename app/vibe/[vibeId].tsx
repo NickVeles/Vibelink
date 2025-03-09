@@ -57,14 +57,14 @@ export default function VibeEditScreen() {
     setEmoji(vibe.emoji);
     setColor(vibe.color);
     setIsConfirmable(vibe.isConfirmable);
-  }, [vibe])
+  }, [vibe]);
 
   useEffect(() => {
     if (!dataContext) {
       return;
     }
 
-    let isValidId = validate(vibeId)
+    let isValidId = validate(vibeId);
 
     // Check for existing vibe
     if (isValidId) {
@@ -78,7 +78,9 @@ export default function VibeEditScreen() {
         id: uuidv4(),
         text: '',
         emoji: '',
-        color: Color('red').rotate(360 * Math.random()).hex(),
+        color: Color('red')
+          .rotate(360 * Math.random())
+          .hex(),
         isConfirmable: false,
       };
       setVibe(newVibe);
@@ -90,7 +92,7 @@ export default function VibeEditScreen() {
   useEffect(() => {
     setIsSaveButtonDisabled(isTextError || isEmojiError);
   }, [isTextError, isEmojiError]);
-  
+
   // Check for empty text
   useEffect(() => {
     if (text.trim().length == 0) {
@@ -100,13 +102,13 @@ export default function VibeEditScreen() {
       setIsTextError(false);
       setTextError('');
     }
-  }, [text])
+  }, [text]);
 
   // Check for empty emoji
   useEffect(() => {
     setIsEmojiError(emoji == '');
-  }, [emoji])
-  
+  }, [emoji]);
+
   const closeConfirmModal = () => {
     setConfirmModalVisible(false);
   };
@@ -183,7 +185,7 @@ export default function VibeEditScreen() {
               {/* Button Content */}
               <Text style={styles.emoji}>{emoji}</Text>
               <Text style={[styles.vibeText, { maxWidth: maxTextWidth }]}>
-                {text.trim()? text.trim() : " "}
+                {text.trim() ? text.trim() : ' '}
               </Text>
               <Text style={[styles.emoji, { opacity: 0 }]}>{emoji}</Text>
             </LinearGradient>
@@ -201,16 +203,17 @@ export default function VibeEditScreen() {
                   { borderColor: isTextError ? '#b0485b' : '#424242' },
                 ]}
               />
-              <Text style={[styles.errorLabel]}>
-                {textError}
-              </Text>
+              <Text style={[styles.errorLabel]}>{textError}</Text>
             </View>
 
             {/* Emoji */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Emoji</Text>
               <TouchableOpacity
-                style={styles.input}
+                style={[
+                  styles.input,
+                  { borderColor: isEmojiError ? '#b0485b' : '#424242' },
+                ]}
                 onPress={() => setEmojiPickerVisible(true)}
               >
                 <Text style={styles.emoji}>{emoji}</Text>
@@ -244,7 +247,7 @@ export default function VibeEditScreen() {
               fillColor="#b0485b"
               unFillColor="transparent"
               text="Ask to confirm before sending"
-              iconStyle={{ borderColor: '#b0485b' }}
+              textStyle={{ textDecorationLine: 'none' }}
               innerIconStyle={{ borderWidth: 1, borderColor: '#999' }}
               style={styles.inputContainer}
               onPress={setIsConfirmable}
@@ -333,17 +336,18 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   label: {
-    fontSize: 12,
+    fontSize: 18,
     color: '#424242',
     paddingBottom: 2,
   },
   errorLabel: {
-    minHeight: 16,
-    fontSize: 12,
+    minHeight: 22,
+    fontSize: 16,
     color: '#b0485b',
   },
   input: {
-    padding: 4,
+    fontSize: 20,
+    padding: 8,
     borderRadius: 5,
     borderWidth: 1,
   },
