@@ -18,7 +18,7 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({
 }) => {
   return (
     <TouchableOpacity
-      style={[styles.button, { opacity: disabled ? 0.5 : 1 }]}
+      style={[styles.button, styles.floating, { opacity: disabled ? 0.5 : 1 }]}
       onPress={onPress}
       disabled={disabled}
     >
@@ -26,7 +26,7 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({
         colors={[color1, color2]}
         start={[0, 1]}
         end={[1, 0]}
-        style={{ borderRadius: 30 }}
+        style={styles.button}
       >
         {content}
       </LinearGradient>
@@ -36,12 +36,14 @@ const FloatingButton: React.FC<FloatingButtonProps> = ({
 
 const styles = StyleSheet.create({
   button: {
-    position: 'absolute',
     width: 60,
     height: 60,
-    borderRadius: 30, // Changed to 30 to match the width and height
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  floating: {
+    position: 'absolute',
     bottom: 16,
     right: 16,
   },
