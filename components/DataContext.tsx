@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect } from "react";
-import { getVibes, saveOrUpdateVibe } from "@/utils/storage";
+import { getVibes, saveVibes, saveOrUpdateVibe } from "@/utils/storage";
 import { Vibe } from "@/models/Vibe";
 
 interface DataContextType {
   vibes: Vibe[];
   addOrUpdateVibe: (vibe: Vibe) => Promise<void>;
+  updateVibes: (vibes: Vibe[]) => Promise<void>;
 }
 
 export const DataContext = createContext<DataContextType | undefined>(undefined);
@@ -12,23 +13,28 @@ export const DataContext = createContext<DataContextType | undefined>(undefined)
 export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [vibes, setVibes] = useState<Vibe[]>([]);
 
-  // Load vibes from AsyncStorage when the app starts
+  // Load vibes from AsyncStorage once when the app starts
   useEffect(() => {
-    const loadVibes = async () => {
-      const storedVibes = await getVibes();
-      setVibes(storedVibes);
-    };
-    loadVibes();
+    getVibes().then(setVibes);
   }, []);
 
-  // Function to update the vibes list and persist it
   const addOrUpdateVibe = async (vibe: Vibe) => {
     await saveOrUpdateVibe(vibe);
-    setVibes(await getVibes()); // Refresh state after update
+    setVibes((prevVibes) => {
+      const updatedVibes = prevVibes.some((v) => v.id === vibe.id)
+        ? prevVibes.map((v) => (v.id === vibe.id ? vibe : v))
+        : [...prevVibes, vibe];
+      return updatedVibes;
+    });
+  };
+
+  const updateVibes = async (updatedVibes: Vibe[]) => {
+    await saveVibes(updatedVibes);
+    setVibes(updatedVibes); // No need to re-fetch
   };
 
   return (
-    <DataContext.Provider value={{ vibes, addOrUpdateVibe }}>
+    <DataContext.Provider value={{ vibes, addOrUpdateVibe, updateVibes }}>
       {children}
     </DataContext.Provider>
   );
