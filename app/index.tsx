@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import {
   StyleSheet,
   View,
@@ -6,9 +6,8 @@ import {
   Animated, // Import Animated from react-native
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
+import { useRouter, Link } from 'expo-router';
 import { v4 as uuidv4 } from 'uuid';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -20,8 +19,10 @@ import Color from 'color';
 import { ContextMenuModal } from '@/components/ContextMenuModal';
 import { ConfirmModal } from '@/components/ConfirmModal'; // Import ConfirmModal
 import FloatingButton from '@/components/ui/FloatingButton';
+import DataContext from '@/components/DataContext';
 
 export default function HomeScreen() {
+  const dataContext = useContext(DataContext);
   const router = useRouter();
   const [vibes, setVibes] = useState<Vibe[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
@@ -51,25 +52,13 @@ export default function HomeScreen() {
   }, [buttonsDisabled]);
 
   const addVibe = async () => {
-    const newVibe: Vibe = {
-      id: uuidv4(),
-      text: 'Happy',
-      emoji: '😊',
-      color: Color('red').rotate(Math.random() * 360).hex(),
-      isConfirmable: true,
-    };
-
-    router.push({
-      pathname: '/AddEditVibeScreen',
-      params: {
-        vibe: JSON.stringify(newVibe),
-        isNew: 'true',
-      },
-    });
+    router.push(`/vibe/add-vibe`);
   };
 
   const handleEdit = () => {
-    // Do nothing for now
+    if (selectedVibe) {
+      router.push(`/vibe/${selectedVibe.id}`);
+    }
   };
 
   const handleMoveUp = () => {
@@ -77,7 +66,10 @@ export default function HomeScreen() {
       const index = vibes.findIndex((vibe) => vibe.id === selectedVibe.id);
       if (index > 0) {
         const updatedVibes = [...vibes];
-        [updatedVibes[index - 1], updatedVibes[index]] = [updatedVibes[index], updatedVibes[index - 1]];
+        [updatedVibes[index - 1], updatedVibes[index]] = [
+          updatedVibes[index],
+          updatedVibes[index - 1],
+        ];
         setVibes(updatedVibes);
         saveVibes(updatedVibes);
       }
@@ -89,7 +81,10 @@ export default function HomeScreen() {
       const index = vibes.findIndex((vibe) => vibe.id === selectedVibe.id);
       if (index < vibes.length - 1) {
         const updatedVibes = [...vibes];
-        [updatedVibes[index + 1], updatedVibes[index]] = [updatedVibes[index], updatedVibes[index + 1]];
+        [updatedVibes[index + 1], updatedVibes[index]] = [
+          updatedVibes[index],
+          updatedVibes[index + 1],
+        ];
         setVibes(updatedVibes);
         saveVibes(updatedVibes);
       }
@@ -129,72 +124,92 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      <Header 
-        leftButton={<SettingsIcon height={32} width={32} />}
-      />
+      <Header leftButton={<SettingsIcon height={32} width={32} />} />
 
       {/* Vibe buttons */}
       <ParallaxScrollView>
-        {vibes.map((vibe) => (
-          <LinearGradient
-            key={vibe.id}
-            colors={[Color(vibe.color).rotate(8).hex(), vibe.color, Color(vibe.color).rotate(-8).hex()]}
-            start={[1, 0]}
-            end={[0, 0.75]}
-            style={{ borderRadius: 10, opacity: buttonsDisabled ? 0.5 : 1 }}>
-            <TouchableOpacity
-              style={styles.vibeButton}
-              onPress={() => {
-                setSelectedVibe(vibe);
-
-                if (vibe.isConfirmable) {
-                  setConfirmModalVisible(true);
-                } else {
-                  sendVibe();
-                }
-              }}
-              onLongPress={() => {
-                setSelectedVibe(vibe);
-                setModalVisible(true);
-              }}
-              onLayout={(event) => {
-                // make space for the emojis
-                const { width } = event.nativeEvent.layout;
-                setMaxTextWidth(width - 128);
-              }}
-              disabled={buttonsDisabled}
+        {dataContext &&
+          vibes.map((vibe) => (
+            <LinearGradient
+              key={vibe.id}
+              colors={[
+                Color(vibe.color).rotate(8).hex(),
+                vibe.color,
+                Color(vibe.color).rotate(-8).hex(),
+              ]}
+              start={[1, 0]}
+              end={[0, 0.75]}
+              style={{ borderRadius: 10, opacity: buttonsDisabled ? 0.5 : 1 }}
             >
-              {/* Button Content */}
-              <ThemedText style={styles.emoji}>
-                {vibe.emoji}
-              </ThemedText>
-              <ThemedText style={[styles.vibeText, { maxWidth: maxTextWidth }]}>
-                {vibe.text}
-              </ThemedText>
-              <ThemedText style={[styles.emoji, { opacity: 0 }]}>
-                {vibe.emoji}
-              </ThemedText>
-            </TouchableOpacity>
-          </LinearGradient>
-        ))}
+              <TouchableOpacity
+                style={styles.vibeButton}
+                onPress={() => {
+                  setSelectedVibe(vibe);
+
+                  if (vibe.isConfirmable) {
+                    setConfirmModalVisible(true);
+                  } else {
+                    sendVibe();
+                  }
+                }}
+                onLongPress={() => {
+                  setSelectedVibe(vibe);
+                  setModalVisible(true);
+                }}
+                onLayout={(event) => {
+                  // make space for the emojis
+                  const { width } = event.nativeEvent.layout;
+                  setMaxTextWidth(width - 128);
+                }}
+                disabled={buttonsDisabled}
+              >
+                {/* Button Content */}
+                <ThemedText style={styles.emoji}>{vibe.emoji}</ThemedText>
+                <ThemedText
+                  style={[styles.vibeText, { maxWidth: maxTextWidth }]}
+                >
+                  {vibe.text}
+                </ThemedText>
+                <ThemedText style={[styles.emoji, { opacity: 0 }]}>
+                  {vibe.emoji}
+                </ThemedText>
+              </TouchableOpacity>
+            </LinearGradient>
+          ))}
+        {!dataContext && (
+          <ThemedText style={styles.loadingText}>Loading vibes...</ThemedText>
+        )}
       </ParallaxScrollView>
 
       {/* Add button */}
-      <FloatingButton 
-        onPress={addVibe}
-        color1="#ff6f61"
-        color2="#b0485b"
-        content={<AddIcon height={50} width={50} />}
-      />
+      {dataContext && (
+        <FloatingButton
+          onPress={addVibe}
+          color1="#ff6f61"
+          color2="#b0485b"
+          content={<AddIcon height={50} width={50} />}
+        />
+      )}
 
       {/* Cooldown indicator */}
       {buttonsDisabled && (
-        <Animated.View style={[styles.cooldownIndicator, { width: cooldownWidth.interpolate({
-          inputRange: [0, 100],
-          outputRange: ['0%', '100%'],
-        }) }]}>
+        <Animated.View
+          style={[
+            styles.cooldownIndicator,
+            {
+              width: cooldownWidth.interpolate({
+                inputRange: [0, 100],
+                outputRange: ['0%', '100%'],
+              }),
+            },
+          ]}
+        >
           <LinearGradient
-            colors={[Color(selectedVibe!.color).rotate(8).hex(), selectedVibe!.color, Color(selectedVibe!.color).rotate(-8).hex()]}
+            colors={[
+              Color(selectedVibe!.color).rotate(8).hex(),
+              selectedVibe!.color,
+              Color(selectedVibe!.color).rotate(-8).hex(),
+            ]}
             start={[1, 0]}
             end={[0, 0.75]}
             style={{ flex: 1 }}
@@ -264,5 +279,10 @@ const styles = StyleSheet.create({
     height: 4,
     width: '100%',
     bottom: 0,
+  },
+  loadingText: {
+    textAlign: 'center',
+    fontStyle: 'italic',
+    padding: 20,
   },
 });
