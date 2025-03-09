@@ -41,8 +41,9 @@ export default function VibeEditScreen() {
   const [color, setColor] = useState(vibe.color);
   const [isConfirmable, setIsConfirmable] = useState(vibe.isConfirmable);
 
-  const [confirmModalVisible, setConfirmModalVisible] = useState(false); // State for ConfirmModal visibility
   const [maxTextWidth, setMaxTextWidth] = useState(0);
+  const [inputContainerHeight, setInputContainerHeight] = useState(0);
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false); // State for ConfirmModal visibility
   const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
   const [colorPickerVisible, setColorPickerVisible] = useState(false);
 
@@ -200,8 +201,12 @@ export default function VibeEditScreen() {
                 placeholderTextColor="#999"
                 style={[
                   styles.input,
-                  { borderColor: isTextError ? '#b0485b' : '#424242' },
+                  { borderColor: isTextError ? '#b0485b' : '#424242', padding: 8 },
                 ]}
+                onLayout={(event) => {
+                  const { height } = event.nativeEvent.layout;
+                  setInputContainerHeight(height);
+                }}
               />
               <Text style={[styles.errorLabel]}>{textError}</Text>
             </View>
@@ -212,11 +217,14 @@ export default function VibeEditScreen() {
               <TouchableOpacity
                 style={[
                   styles.input,
-                  { borderColor: isEmojiError ? '#b0485b' : '#424242' },
+                  {
+                    borderColor: isEmojiError ? '#b0485b' : '#424242',
+                    height: inputContainerHeight,
+                  },
                 ]}
                 onPress={() => setEmojiPickerVisible(true)}
               >
-                <Text style={styles.emoji}>{emoji}</Text>
+                <Text>{emoji}</Text>
               </TouchableOpacity>
               <EmojiPicker
                 onEmojiSelected={handleEmojiSelected}
@@ -234,7 +242,7 @@ export default function VibeEditScreen() {
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Color</Text>
               <TouchableOpacity
-                style={styles.input}
+                style={[styles.input, { height: inputContainerHeight }]}
                 onPress={() => setColorPickerVisible(true)}
               >
                 <View style={{ flex: 1, backgroundColor: color }} />
@@ -332,8 +340,7 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   inputContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingTop: 8,
   },
   label: {
     fontSize: 18,
@@ -347,7 +354,6 @@ const styles = StyleSheet.create({
   },
   input: {
     fontSize: 20,
-    padding: 8,
     borderRadius: 5,
     borderWidth: 1,
   },
