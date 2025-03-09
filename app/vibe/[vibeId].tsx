@@ -26,7 +26,7 @@ const defaultVibe: Vibe = {
   id: '',
   text: '',
   emoji: '',
-  color: '#FF0000',
+  color: '#000',
   isConfirmable: false,
 };
 
@@ -36,7 +36,7 @@ export default function VibeEditScreen() {
   const dataContext = useContext(DataContext);
 
   const [vibe, setVibe] = useState(defaultVibe);
-  const [text, setText] = useState(vibe.text.trim().substring(0, 16));
+  const [text, setText] = useState(vibe.text);
   const [emoji, setEmoji] = useState(vibe.emoji);
   const [color, setColor] = useState(vibe.color);
   const [isConfirmable, setIsConfirmable] = useState(vibe.isConfirmable);
@@ -51,6 +51,13 @@ export default function VibeEditScreen() {
   const [textError, setTextError] = useState('');
   const [isEmojiError, setIsEmojiError] = useState(false);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
+
+  useEffect(() => {
+    setText(vibe.text.trim().substring(0, 16));
+    setEmoji(vibe.emoji);
+    setColor(vibe.color);
+    setIsConfirmable(vibe.isConfirmable);
+  }, [vibe])
 
   useEffect(() => {
     if (!dataContext) {
