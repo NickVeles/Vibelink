@@ -18,7 +18,6 @@ import Color from 'color';
 import EmojiPicker, { type EmojiType } from 'rn-emoji-keyboard';
 import { ColorPickerModal } from '@/components/ColorPickerModal';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import { saveOrUpdateVibe } from '@/utils/storage';
 import DataContext from '@/components/DataContext';
 import { v4 as uuidv4, validate } from 'uuid';
 import { ThemedText } from '@/components/ThemedText';
@@ -27,7 +26,7 @@ const defaultVibe: Vibe = {
   id: '',
   text: '',
   emoji: '',
-  color: '',
+  color: '#FF0000',
   isConfirmable: false,
 };
 
@@ -37,9 +36,9 @@ export default function VibeEditScreen() {
   const dataContext = useContext(DataContext);
 
   const [vibe, setVibe] = useState(defaultVibe);
-  const [text, setText] = useState(vibe.text);
-  const [emoji, setEmoji] = useState(vibe.text);
-  const [color, setColor] = useState(vibe.emoji);
+  const [text, setText] = useState(vibe.text.trim().substring(0, 16));
+  const [emoji, setEmoji] = useState(vibe.emoji);
+  const [color, setColor] = useState(vibe.color);
   const [isConfirmable, setIsConfirmable] = useState(vibe.isConfirmable);
 
   const [confirmModalVisible, setConfirmModalVisible] = useState(false); // State for ConfirmModal visibility
@@ -58,11 +57,10 @@ export default function VibeEditScreen() {
       return;
     }
 
-    // Check for valid Id
-    setIsValidUuid(validate(vibeId));
+    let isValidId = validate(vibeId)
 
     // Check for existing vibe
-    if (isValidUuid) {
+    if (isValidId) {
       const foundVibe = dataContext.vibes.find((v) => v.id === vibeId);
       setVibe(foundVibe!);
     }
@@ -73,43 +71,46 @@ export default function VibeEditScreen() {
         id: uuidv4(),
         text: '',
         emoji: '',
-        color: '#FF0000',
+        color: Color('red').rotate(360 * Math.random()).hex(),
         isConfirmable: false,
       };
       setVibe(newVibe);
     }
+
+    setIsValidUuid(true);
   }, [vibeId, dataContext]);
 
   useEffect(() => {
     setIsSaveButtonDisabled(isTextError || isEmojiError);
   }, [isTextError, isEmojiError]);
-
-  const closeConfirmModal = () => {
-    setConfirmModalVisible(false);
-  };
-
-  const handleChangeText = (value: string) => {
-    setText(value);
-
-    // Check for text length
-    if (text.length > 16) {
-      setIsTextError(true);
-      setTextError('Your vibe can have at most 16 characters');
-    } else if (text.length == 0) {
+  
+  // Check for empty text
+  useEffect(() => {
+    if (text.length == 0) {
       setIsTextError(true);
       setTextError('Your vibe cannot be empty');
     } else {
       setIsTextError(false);
       setTextError('');
     }
+  }, [text])
+
+  // Check for empty emoji
+  useEffect(() => {
+    setIsEmojiError(emoji == '');
+  }, [emoji])
+  
+  const closeConfirmModal = () => {
+    setConfirmModalVisible(false);
+  };
+
+  const handleChangeText = (value: string) => {
+    setText(value.substring(0, 16));
   };
 
   const handleEmojiSelected = (emojiObject: EmojiType) => {
     setEmoji(emojiObject.emoji);
     setEmojiPickerVisible(false);
-
-    // Check for empty emoji
-    setIsEmojiError(emoji == '');
   };
 
   const handleColorSelect = (selectedColor: string) => {
@@ -140,9 +141,9 @@ export default function VibeEditScreen() {
       isConfirmable: isConfirmable,
     };
 
-    await saveOrUpdateVibe(updatedVibe);
+    await dataContext?.addOrUpdateVibe(updatedVibe);
 
-    router.back();
+    router.back(); // this doesn't work?
   };
 
   return (
@@ -154,9 +155,9 @@ export default function VibeEditScreen() {
 
       {/* Content */}
       <ParallaxScrollView>
-        {/* Preview */}
         {isValidUuid && (
           <>
+            {/* Preview */}
             <LinearGradient
               colors={[
                 Color(color).rotate(8).hex(),
@@ -175,7 +176,7 @@ export default function VibeEditScreen() {
               {/* Button Content */}
               <Text style={styles.emoji}>{emoji}</Text>
               <Text style={[styles.vibeText, { maxWidth: maxTextWidth }]}>
-                {text}
+                {text? text.trim() : " "}
               </Text>
               <Text style={[styles.emoji, { opacity: 0 }]}>{emoji}</Text>
             </LinearGradient>
@@ -236,16 +237,16 @@ export default function VibeEditScreen() {
               size={24}
               fillColor="#b0485b"
               unFillColor="transparent"
-              text="Ask me to confirm before sending the vibe"
+              text="Ask to confirm before sending"
               iconStyle={{ borderColor: '#b0485b' }}
-              innerIconStyle={{ borderWidth: 2, borderColor: '#f2f2f2' }}
+              innerIconStyle={{ borderWidth: 2, borderColor: '#12121280' }}
               style={styles.inputContainer}
               onPress={setIsConfirmable}
             />
           </>
         )}
-        {!vibe.id && (
-          <ThemedText style={styles.loadingText}>Loading vibes...</ThemedText>
+        {!isValidUuid && (
+          <ThemedText style={styles.loadingText}>Loading vibe...</ThemedText>
         )}
       </ParallaxScrollView>
 
