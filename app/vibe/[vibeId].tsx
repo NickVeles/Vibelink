@@ -49,7 +49,6 @@ export default function VibeEditScreen() {
 
   const [isValidUuid, setIsValidUuid] = useState(false);
   const [isTextError, setIsTextError] = useState(false);
-  const [textError, setTextError] = useState('');
   const [isEmojiError, setIsEmojiError] = useState(false);
   const [isSaveButtonDisabled, setIsSaveButtonDisabled] = useState(false);
 
@@ -96,13 +95,7 @@ export default function VibeEditScreen() {
 
   // Check for empty text
   useEffect(() => {
-    if (text.trim().length == 0) {
-      setIsTextError(true);
-      setTextError('Your vibe cannot be empty');
-    } else {
-      setIsTextError(false);
-      setTextError('');
-    }
+    setIsTextError(text.trim().length == 0);
   }, [text]);
 
   // Check for empty emoji
@@ -184,16 +177,25 @@ export default function VibeEditScreen() {
               }}
             >
               {/* Button Content */}
-              <Text style={styles.emoji}>{emoji}</Text>
-              <Text style={[styles.vibeText, { maxWidth: maxTextWidth }]}>
+              <Text selectable={false} style={styles.emoji}>
+                {emoji}
+              </Text>
+              <Text
+                selectable={false}
+                style={[styles.vibeText, { maxWidth: maxTextWidth }]}
+              >
                 {text.trim() ? text.trim() : ' '}
               </Text>
-              <Text style={[styles.emoji, { opacity: 0 }]}>{emoji}</Text>
+              <Text selectable={false} style={[styles.emoji, { opacity: 0 }]}>
+                {emoji}
+              </Text>
             </LinearGradient>
 
             {/* Text */}
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>What's your vibe?</Text>
+              <Text selectable={false} style={styles.label}>
+                What's your vibe?
+              </Text>
               <TextInput
                 value={text}
                 onChangeText={handleChangeText}
@@ -201,51 +203,89 @@ export default function VibeEditScreen() {
                 placeholderTextColor="#999"
                 style={[
                   styles.input,
-                  { borderColor: isTextError ? '#b0485b' : '#424242', padding: 8 },
+                  {
+                    borderColor: isTextError ? '#b0485b' : '#424242',
+                    padding: 8,
+                  },
                 ]}
                 onLayout={(event) => {
                   const { height } = event.nativeEvent.layout;
                   setInputContainerHeight(height);
                 }}
               />
-              <Text style={[styles.errorLabel]}>{textError}</Text>
+              <Text selectable={false} style={[styles.errorLabel]}>
+                {isTextError ? 'Your vibe cannot be empty' : ''}
+              </Text>
             </View>
 
             {/* Emoji */}
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Emoji</Text>
+              <Text selectable={false} style={styles.label}>
+                Emoji
+              </Text>
               <TouchableOpacity
                 style={[
                   styles.input,
                   {
                     borderColor: isEmojiError ? '#b0485b' : '#424242',
                     height: inputContainerHeight,
+                    flexDirection: 'row',
                   },
                 ]}
                 onPress={() => setEmojiPickerVisible(true)}
               >
-                <Text>{emoji}</Text>
+                <LinearGradient
+                  colors={['#b0485b', '#ff6f61']}
+                  start={[1, 0]}
+                  end={[0, 0.75]}
+                  style={styles.inputButton}
+                >
+                  <Text style={styles.inputText}>Change</Text>
+                </LinearGradient>
+                <Text
+                  selectable={false}
+                  style={[
+                    styles.inputButton,
+                    styles.inputText,
+                    { fontSize: 22 },
+                  ]}
+                >
+                  {emoji}
+                </Text>
               </TouchableOpacity>
               <EmojiPicker
                 onEmojiSelected={handleEmojiSelected}
                 open={emojiPickerVisible}
                 onClose={() => setEmojiPickerVisible(false)}
               />
-              {isEmojiError && (
-                <Text style={[styles.errorLabel]}>
-                  You have to pick an emoji
-                </Text>
-              )}
+              <Text selectable={false} style={[styles.errorLabel]}>
+                {isEmojiError ? 'You have to pick an emoji' : ''}
+              </Text>
             </View>
 
             {/* Color Picker */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Color</Text>
               <TouchableOpacity
-                style={[styles.input, { height: inputContainerHeight }]}
+                style={[
+                  styles.input,
+                  { height: inputContainerHeight, flexDirection: 'row' },
+                ]}
                 onPress={() => setColorPickerVisible(true)}
               >
-                <View style={{ flex: 1, backgroundColor: color }} />
+                <LinearGradient
+                  colors={['#b0485b', '#ff6f61']}
+                  start={[1, 0]}
+                  end={[0, 0.75]}
+                  style={styles.inputButton}
+                >
+                  <Text selectable={false} style={styles.inputText}>
+                    Change
+                  </Text>
+                </LinearGradient>
+                <View
+                  style={[styles.inputColorBox, { backgroundColor: color }]}
+                />
               </TouchableOpacity>
             </View>
 
@@ -255,7 +295,7 @@ export default function VibeEditScreen() {
               fillColor="#b0485b"
               unFillColor="transparent"
               text="Ask to confirm before sending"
-              textStyle={{ textDecorationLine: 'none' }}
+              textStyle={{ textDecorationLine: 'none', userSelect: 'none' }}
               innerIconStyle={{ borderWidth: 1, borderColor: '#999' }}
               style={styles.inputContainer}
               onPress={setIsConfirmable}
@@ -263,7 +303,9 @@ export default function VibeEditScreen() {
           </>
         )}
         {!isValidUuid && (
-          <ThemedText style={styles.loadingText}>Loading vibe...</ThemedText>
+          <ThemedText selectable={false} style={styles.loadingText}>
+            Loading vibe...
+          </ThemedText>
         )}
       </ParallaxScrollView>
 
@@ -271,9 +313,9 @@ export default function VibeEditScreen() {
       {isValidUuid && (
         <FloatingButton
           onPress={handleSave}
-          color1="#3d9f3c"
-          color2="#1b6e13"
-          content={<SaveIcon height={50} width={50} />}
+          color2="#ff6f61"
+          color1="#b0485b"
+          content={<SaveIcon height={46} width={46} />}
           disabled={isSaveButtonDisabled}
         />
       )}
@@ -339,9 +381,6 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 5,
   },
-  inputContainer: {
-    paddingTop: 8,
-  },
   label: {
     fontSize: 18,
     color: '#424242',
@@ -352,10 +391,30 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#b0485b',
   },
+  inputContainer: {
+    paddingTop: 8,
+  },
   input: {
     fontSize: 20,
     borderRadius: 5,
     borderWidth: 1,
+  },
+  inputButton: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    borderTopLeftRadius: 3.5,
+    borderBottomLeftRadius: 3.5,
+  },
+  inputText: {
+    flex: 1,
+    alignContent: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    color: '#f2f2f2',
+  },
+  inputColorBox: {
+    flex: 1,
   },
   loadingText: {
     textAlign: 'center',
