@@ -29,7 +29,7 @@ export default function RootLayout({ children }: RootLayoutProps): (ReactElement
 
   return (
     <DataProvider>
-      <Stack>
+      <Stack screenOptions={{ headerShown: false }}>
         {children}
       </Stack>
     </DataProvider>
