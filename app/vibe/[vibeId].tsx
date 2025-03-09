@@ -283,9 +283,11 @@ export default function VibeEditScreen() {
                     Change
                   </Text>
                 </LinearGradient>
-                <View
-                  style={[styles.inputColorBox, { backgroundColor: color }]}
-                />
+                <View style={{ flex: 1 }}>
+                  <View
+                    style={[styles.inputColorBox, { backgroundColor: color }]}
+                  />
+                </View>
               </TouchableOpacity>
             </View>
 
@@ -415,6 +417,8 @@ const styles = StyleSheet.create({
   },
   inputColorBox: {
     flex: 1,
+    margin: 5,
+    borderRadius: 3.5,
   },
   loadingText: {
     textAlign: 'center',
