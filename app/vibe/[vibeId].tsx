@@ -177,25 +177,16 @@ export default function VibeEditScreen() {
               }}
             >
               {/* Button Content */}
-              <Text style={styles.emoji}>
-                {emoji}
-              </Text>
-              <Text
-               
-                style={[styles.vibeText, { maxWidth: maxTextWidth }]}
-              >
+              <Text style={styles.emoji}>{emoji}</Text>
+              <Text style={[styles.vibeText, { maxWidth: maxTextWidth }]}>
                 {text.trim() ? text.trim() : ' '}
               </Text>
-              <Text style={[styles.emoji, { opacity: 0 }]}>
-                {emoji}
-              </Text>
+              <Text style={[styles.emoji, { opacity: 0 }]}>{emoji}</Text>
             </LinearGradient>
 
             {/* Text */}
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>
-                What's your vibe?
-              </Text>
+              <Text style={styles.label}>What's your vibe?</Text>
               <TextInput
                 value={text}
                 onChangeText={handleChangeText}
@@ -220,9 +211,7 @@ export default function VibeEditScreen() {
 
             {/* Emoji */}
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>
-                Emoji
-              </Text>
+              <Text style={styles.label}>Emoji</Text>
               <TouchableOpacity
                 style={[
                   styles.input,
@@ -243,7 +232,6 @@ export default function VibeEditScreen() {
                   <Text style={styles.inputText}>Change</Text>
                 </LinearGradient>
                 <Text
-                 
                   style={[
                     styles.inputButton,
                     styles.inputText,
@@ -279,9 +267,7 @@ export default function VibeEditScreen() {
                   end={[0, 0.75]}
                   style={styles.inputButton}
                 >
-                  <Text style={styles.inputText}>
-                    Change
-                  </Text>
+                  <Text style={styles.inputText}>Change</Text>
                 </LinearGradient>
                 <View style={{ flex: 1 }}>
                   <View
@@ -305,9 +291,7 @@ export default function VibeEditScreen() {
           </>
         )}
         {!isValidUuid && (
-          <ThemedText style={styles.loadingText}>
-            Loading vibe...
-          </ThemedText>
+          <ThemedText style={styles.loadingText}>Loading vibe...</ThemedText>
         )}
       </ParallaxScrollView>
 
