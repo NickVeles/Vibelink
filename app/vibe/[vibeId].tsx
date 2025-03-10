@@ -15,12 +15,14 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ConfirmModal } from '@/components/ConfirmModal';
 import FloatingButton from '@/components/ui/FloatingButton';
 import Color from 'color';
-import EmojiPicker, { type EmojiType } from 'rn-emoji-keyboard';
+import data from '@emoji-mart/data'
+import Picker from '@emoji-mart/react'
 import { ColorPickerModal } from '@/components/ColorPickerModal';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import DataContext from '@/components/DataContext';
 import { v4 as uuidv4, validate } from 'uuid';
 import { ThemedText } from '@/components/ThemedText';
+import { Emoji } from 'emoji-mart';
 
 const defaultVibe: Vibe = {
   id: '',
@@ -111,8 +113,8 @@ export default function VibeEditScreen() {
     setText(value.substring(0, 16));
   };
 
-  const handleEmojiSelected = (emojiObject: EmojiType) => {
-    setEmoji(emojiObject.emoji);
+  const handleEmojiSelected = (emojiObject: any) => {
+    setEmoji(emojiObject.native);
     setEmojiPickerVisible(false);
   };
 
@@ -241,11 +243,11 @@ export default function VibeEditScreen() {
                   {emoji}
                 </Text>
               </TouchableOpacity>
-              <EmojiPicker
-                onEmojiSelected={handleEmojiSelected}
+              {emojiPickerVisible && <Picker
+                onEmojiSelect={handleEmojiSelected}
                 open={emojiPickerVisible}
-                onClose={() => setEmojiPickerVisible(false)}
-              />
+                onClickOutside={() => setEmojiPickerVisible(false)}
+              />}
               <Text style={[styles.errorLabel]}>
                 {isEmojiError ? 'You have to pick an emoji' : ''}
               </Text>
