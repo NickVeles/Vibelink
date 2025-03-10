@@ -177,23 +177,23 @@ export default function VibeEditScreen() {
               }}
             >
               {/* Button Content */}
-              <Text selectable={false} style={styles.emoji}>
+              <Text style={styles.emoji}>
                 {emoji}
               </Text>
               <Text
-                selectable={false}
+               
                 style={[styles.vibeText, { maxWidth: maxTextWidth }]}
               >
                 {text.trim() ? text.trim() : ' '}
               </Text>
-              <Text selectable={false} style={[styles.emoji, { opacity: 0 }]}>
+              <Text style={[styles.emoji, { opacity: 0 }]}>
                 {emoji}
               </Text>
             </LinearGradient>
 
             {/* Text */}
             <View style={styles.inputContainer}>
-              <Text selectable={false} style={styles.label}>
+              <Text style={styles.label}>
                 What's your vibe?
               </Text>
               <TextInput
@@ -213,14 +213,14 @@ export default function VibeEditScreen() {
                   setInputContainerHeight(height);
                 }}
               />
-              <Text selectable={false} style={[styles.errorLabel]}>
+              <Text style={[styles.errorLabel]}>
                 {isTextError ? 'Your vibe cannot be empty' : ''}
               </Text>
             </View>
 
             {/* Emoji */}
             <View style={styles.inputContainer}>
-              <Text selectable={false} style={styles.label}>
+              <Text style={styles.label}>
                 Emoji
               </Text>
               <TouchableOpacity
@@ -243,7 +243,7 @@ export default function VibeEditScreen() {
                   <Text style={styles.inputText}>Change</Text>
                 </LinearGradient>
                 <Text
-                  selectable={false}
+                 
                   style={[
                     styles.inputButton,
                     styles.inputText,
@@ -258,7 +258,7 @@ export default function VibeEditScreen() {
                 open={emojiPickerVisible}
                 onClose={() => setEmojiPickerVisible(false)}
               />
-              <Text selectable={false} style={[styles.errorLabel]}>
+              <Text style={[styles.errorLabel]}>
                 {isEmojiError ? 'You have to pick an emoji' : ''}
               </Text>
             </View>
@@ -279,7 +279,7 @@ export default function VibeEditScreen() {
                   end={[0, 0.75]}
                   style={styles.inputButton}
                 >
-                  <Text selectable={false} style={styles.inputText}>
+                  <Text style={styles.inputText}>
                     Change
                   </Text>
                 </LinearGradient>
@@ -305,7 +305,7 @@ export default function VibeEditScreen() {
           </>
         )}
         {!isValidUuid && (
-          <ThemedText selectable={false} style={styles.loadingText}>
+          <ThemedText style={styles.loadingText}>
             Loading vibe...
           </ThemedText>
         )}
@@ -369,6 +369,7 @@ const styles = StyleSheet.create({
   },
   emoji: {
     fontSize: 32,
+    userSelect: 'none',
   },
   vibeText: {
     fontSize: 24,
@@ -382,16 +383,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 10,
     elevation: 5,
+    userSelect: 'none',
   },
   label: {
     fontSize: 18,
     color: '#424242',
     paddingBottom: 2,
+    userSelect: 'none',
   },
   errorLabel: {
     minHeight: 22,
     fontSize: 16,
     color: '#b0485b',
+    userSelect: 'none',
   },
   inputContainer: {
     paddingTop: 8,
@@ -414,6 +418,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 20,
     color: '#f2f2f2',
+    userSelect: 'none',
   },
   inputColorBox: {
     flex: 1,
@@ -424,5 +429,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'italic',
     padding: 20,
+    userSelect: 'none',
   },
 });
