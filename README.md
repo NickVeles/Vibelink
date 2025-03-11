@@ -2,7 +2,7 @@
 - [x] Remove the nav bar and the Explore tab
 - [x] Add cooldown to the vibe buttons
 - [x] Add context window to the vibe buttons
-- [ ] Add the add/edit vibe screen (use rn-emoji-picker)
+- [x] Add the add/edit vibe screen
 - [ ] Add the settings screen
 - [ ] Add the button press raindrop animation
 
