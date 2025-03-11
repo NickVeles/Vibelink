@@ -17,7 +17,6 @@ import { ConfirmModal } from '@/components/ConfirmModal';
 import FloatingButton from '@/components/ui/FloatingButton';
 import Color from 'color';
 import { ColorPickerModal } from '@/components/ColorPickerModal';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import DataContext from '@/components/DataContext';
 import { v4 as uuidv4, validate } from 'uuid';
 import { ThemedText } from '@/components/ThemedText';
@@ -269,20 +268,69 @@ export default function VibeEditScreen() {
                   />
                 </View>
               </TouchableOpacity>
+              <View style={[styles.errorLabel]} />
             </View>
 
             {/* Is Confirmable? */}
-            <BouncyCheckbox
-              isChecked={isConfirmable}
-              size={24}
-              fillColor="#b0485b"
-              unFillColor="transparent"
-              text="Ask to confirm before sending"
-              textStyle={{ textDecorationLine: 'none', userSelect: 'none' }}
-              innerIconStyle={{ borderWidth: 1, borderColor: '#999' }}
-              style={styles.inputContainer}
-              onPress={setIsConfirmable}
-            />
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Ask me before sending this vibe</Text>
+              <TouchableOpacity
+                style={[
+                  styles.input,
+                  {
+                    height: inputContainerHeight,
+                    flexDirection: 'row',
+                  },
+                ]}
+                onPress={() => setIsConfirmable(!isConfirmable)}
+              >
+                <LinearGradient
+                  colors={
+                    !isConfirmable
+                      ? ['#b0485b', '#ff6f61']
+                      : ['#f9f9f9', '#f9f9f9']
+                  }
+                  start={[1, 0]}
+                  end={[0, 0.75]}
+                  style={styles.inputButton}
+                >
+                  <Text
+                    style={[
+                      styles.inputText,
+                      { color: !isConfirmable ? '#f9f9f9' : '#121212' },
+                    ]}
+                  >
+                    Off
+                  </Text>
+                </LinearGradient>
+                <LinearGradient
+                  colors={
+                    isConfirmable
+                      ? ['#b0485b', '#ff6f61']
+                      : ['#f9f9f9', '#f9f9f9']
+                  }
+                  start={[0, 0.75]}
+                  end={[1, 0]}
+                  style={[
+                    styles.inputButton,
+                    {
+                      borderRadius: 0,
+                      borderTopRightRadius: 3.5,
+                      borderBottomRightRadius: 3.5,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.inputText,
+                      { color: isConfirmable ? '#f9f9f9' : '#121212' },
+                    ]}
+                  >
+                    On
+                  </Text>
+                </LinearGradient>
+              </TouchableOpacity>
+            </View>
           </>
         )}
         {!isValidUuid && (
