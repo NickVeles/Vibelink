@@ -6,11 +6,12 @@ import {
   TouchableOpacity,
   TouchableWithoutFeedback,
 } from 'react-native';
-import ColorPicker, { Panel1, HueSlider } from 'reanimated-color-picker';
-import type { returnedResults } from 'reanimated-color-picker';
+import ColorPicker, {
+  Panel1,
+  HueSlider,
+  returnedResults,
+} from 'reanimated-color-picker';
 import { CheckIcon } from '@/components/ui/Icon';
-
-//TODO: Style the color picker
 
 interface ColorPickerModalProps {
   visible: boolean;
@@ -30,7 +31,8 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = ({
 
   useEffect(() => {
     setIsVisible(visible);
-  }, [visible]);
+    setSelectedColor(color);
+  }, [visible, color]);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -57,6 +59,7 @@ export const ColorPickerModal: React.FC<ColorPickerModalProps> = ({
         <TouchableWithoutFeedback>
           <View style={styles.modal}>
             <ColorPicker
+              style={styles.colorPicker}
               value={selectedColor}
               sliderThickness={20}
               thumbSize={24}
@@ -92,7 +95,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    flex: 1,
+    width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -101,5 +104,10 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'rgba(75, 75, 75, 0.1)',
     borderRadius: 5,
+  },
+  colorPicker: {
+    flex: 1,
+    gap: 10,
+    width: '100%',
   },
 });
