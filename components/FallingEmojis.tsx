@@ -29,7 +29,7 @@ const FallingEmojis = ({ duration, emojis, numEmojis }: FallingEmojisProps) => {
 
   const generateRain = () => {
     for (let i = 0; i < numEmojis; i++) {
-      const randomX = gaussianRandom(width / 2, width / 3, 0, width - 100);
+      const randomX = gaussianRandom(width / 2 - 25, width / 3, 0, width - 50);
       const randomDelay = Math.random() * 0.8 * duration;
 
       const finalDuration = duration - randomDelay;
