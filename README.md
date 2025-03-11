@@ -4,7 +4,7 @@
 - [x] Add context window to the vibe buttons
 - [x] Add the add/edit vibe screen
 - [ ] Add the settings screen
-- [ ] Add the button press raindrop animation
+- [x] Add the button press raindrop animation
 
 # Welcome to your Expo app 👋
 
