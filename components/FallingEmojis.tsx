@@ -5,6 +5,7 @@ import * as Animatable from 'react-native-animatable';
 interface FallingEmojisProps {
   duration: number;
   emojis: string[];
+  numEmojis: number;
 }
 
 const { width, height } = Dimensions.get('window');
@@ -23,13 +24,11 @@ const gaussianRandom = (
   return Math.max(min, Math.min(num * stdDev + mean, max));
 };
 
-const FallingEmojis = ({ duration, emojis }: FallingEmojisProps) => {
+const FallingEmojis = ({ duration, emojis, numEmojis }: FallingEmojisProps) => {
   const rainDrops = useRef<JSX.Element[]>([]); // Explicitly type the ref
 
   const generateRain = () => {
-    const numDrops = 30;
-
-    for (let i = 0; i < numDrops; i++) {
+    for (let i = 0; i < numEmojis; i++) {
       const randomX = gaussianRandom(width / 2, width / 3, 0, width - 100);
       const randomDelay = Math.random() * 0.8 * duration;
 

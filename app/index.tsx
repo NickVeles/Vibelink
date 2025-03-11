@@ -238,7 +238,11 @@ export default function HomeScreen() {
 
       {/* Falling emojis */}
       {isFallingEmojis && (
-        <FallingEmojis duration={cooldownDuration} emojis={[selectedVibe?.emoji ?? '']} />
+        <FallingEmojis
+          duration={cooldownDuration}
+          emojis={[selectedVibe?.emoji ?? '']}
+          numEmojis={30}
+        />
       )}
     </View>
   );
