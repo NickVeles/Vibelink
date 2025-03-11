@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
   },
   cooldownIndicator: {
     position: 'absolute',
-    height: 4,
+    height: 8,
     width: '100%',
     bottom: 0,
   },
