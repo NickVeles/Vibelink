@@ -6,8 +6,7 @@ import {
   Animated, // Import Animated from react-native
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter, Link } from 'expo-router';
-import { v4 as uuidv4 } from 'uuid';
+import { useRouter } from 'expo-router';
 
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
@@ -19,24 +18,27 @@ import { ContextMenuModal } from '@/components/ContextMenuModal';
 import { ConfirmModal } from '@/components/ConfirmModal'; // Import ConfirmModal
 import FloatingButton from '@/components/ui/FloatingButton';
 import DataContext from '@/components/DataContext';
+import FallingEmojis from '@/components/FallingEmojis';
 
 export default function HomeScreen() {
   const router = useRouter();
   const dataContext = useContext(DataContext);
   const vibes = dataContext?.vibes;
+  const cooldownDuration = 3000;
 
   const [modalVisible, setModalVisible] = useState(false);
-  const [confirmModalVisible, setConfirmModalVisible] = useState(false); // State for ConfirmModal visibility
+  const [confirmModalVisible, setConfirmModalVisible] = useState(false);
   const [selectedVibe, setSelectedVibe] = useState<Vibe | null>(null);
   const [maxTextWidth, setMaxTextWidth] = useState(0);
   const [buttonsDisabled, setButtonsDisabled] = useState(false);
-  const cooldownWidth = useRef(new Animated.Value(100)).current; // Initialize Animated.Value
+  const [isFallingEmojis, setIsFallingEmojis] = useState(false);
+  const cooldownWidth = useRef(new Animated.Value(100)).current;
 
   useEffect(() => {
     if (buttonsDisabled) {
       Animated.timing(cooldownWidth, {
         toValue: 0,
-        duration: 3000,
+        duration: cooldownDuration,
         useNativeDriver: false,
       }).start(() => cooldownWidth.setValue(100));
     }
@@ -97,15 +99,20 @@ export default function HomeScreen() {
   };
 
   const handleConfirm = () => {
-    if (selectedVibe) {
-      sendVibe();
-    }
+    sendVibe();
     closeConfirmModal();
   };
 
   const sendVibe = () => {
+    if (!selectedVibe) {
+      return;
+    }
+
     setButtonsDisabled(true);
-    setTimeout(() => setButtonsDisabled(false), 3000);
+    setTimeout(() => setButtonsDisabled(false), cooldownDuration);
+
+    setIsFallingEmojis(true);
+    setTimeout(() => setIsFallingEmojis(false), cooldownDuration);
 
     //TODO: Send the vibe
   };
@@ -227,6 +234,11 @@ export default function HomeScreen() {
           onConfirm={handleConfirm}
           onClose={closeConfirmModal}
         />
+      )}
+
+      {/* Falling emojis */}
+      {isFallingEmojis && (
+        <FallingEmojis duration={cooldownDuration} emojis={[selectedVibe?.emoji ?? '']} />
       )}
     </View>
   );
