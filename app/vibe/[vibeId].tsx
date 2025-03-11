@@ -208,6 +208,7 @@ export default function VibeEditScreen() {
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Emoji</Text>
               <TouchableOpacity
+                activeOpacity={1}
                 style={[
                   styles.input,
                   {
@@ -245,6 +246,7 @@ export default function VibeEditScreen() {
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Color</Text>
               <TouchableOpacity
+                activeOpacity={1}
                 style={[
                   styles.input,
                   { height: inputContainerHeight, flexDirection: 'row' },
@@ -275,6 +277,7 @@ export default function VibeEditScreen() {
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Ask me before sending this vibe</Text>
               <TouchableOpacity
+                activeOpacity={1}
                 style={[
                   styles.input,
                   {
