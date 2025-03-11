@@ -273,6 +273,7 @@ export default function VibeEditScreen() {
 
             {/* Is Confirmable? */}
             <BouncyCheckbox
+              isChecked={isConfirmable}
               size={24}
               fillColor="#b0485b"
               unFillColor="transparent"
