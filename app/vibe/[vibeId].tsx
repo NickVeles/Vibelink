@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import {
   View,
   TextInput,
   TouchableOpacity,
   StyleSheet,
   Text,
+  Keyboard,
 } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { Vibe } from '@/models/Vibe';
@@ -15,14 +16,11 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ConfirmModal } from '@/components/ConfirmModal';
 import FloatingButton from '@/components/ui/FloatingButton';
 import Color from 'color';
-import data from '@emoji-mart/data'
-import Picker from '@emoji-mart/react'
 import { ColorPickerModal } from '@/components/ColorPickerModal';
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import DataContext from '@/components/DataContext';
 import { v4 as uuidv4, validate } from 'uuid';
 import { ThemedText } from '@/components/ThemedText';
-import { Emoji } from 'emoji-mart';
 
 const defaultVibe: Vibe = {
   id: '',
@@ -36,6 +34,7 @@ export default function VibeEditScreen() {
   const router = useRouter();
   const { vibeId } = useLocalSearchParams();
   const dataContext = useContext(DataContext);
+  const inputEmojiRef = useRef<TextInput>(null);
 
   const [vibe, setVibe] = useState(defaultVibe);
   const [text, setText] = useState(vibe.text);
@@ -45,9 +44,8 @@ export default function VibeEditScreen() {
 
   const [maxTextWidth, setMaxTextWidth] = useState(0);
   const [inputContainerHeight, setInputContainerHeight] = useState(0);
-  const [confirmModalVisible, setConfirmModalVisible] = useState(false); // State for ConfirmModal visibility
-  const [emojiPickerVisible, setEmojiPickerVisible] = useState(false);
-  const [colorPickerVisible, setColorPickerVisible] = useState(false);
+  const [isColorPickerVisible, setIsColorPickerVisible] = useState(false);
+  const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
 
   const [isValidUuid, setIsValidUuid] = useState(false);
   const [isTextError, setIsTextError] = useState(false);
@@ -105,22 +103,18 @@ export default function VibeEditScreen() {
     setIsEmojiError(emoji == '');
   }, [emoji]);
 
-  const closeConfirmModal = () => {
-    setConfirmModalVisible(false);
-  };
-
   const handleChangeText = (value: string) => {
     setText(value.substring(0, 16));
   };
 
-  const handleEmojiSelected = (emojiObject: any) => {
-    setEmoji(emojiObject.native);
-    setEmojiPickerVisible(false);
+  const handleChangeEmoji = (value: string) => {
+    const match = value.match(/[\p{Emoji_Presentation}\uFE0F]/u);
+    setEmoji(match ? match[0] : '');
   };
 
   const handleColorSelect = (selectedColor: string) => {
     setColor(selectedColor);
-    setColorPickerVisible(false);
+    setIsColorPickerVisible(false);
   };
 
   const handleLeave = async () => {
@@ -134,7 +128,7 @@ export default function VibeEditScreen() {
       return;
     }
 
-    setConfirmModalVisible(true);
+    setIsConfirmModalVisible(true);
   };
 
   const handleSave = async () => {
@@ -223,7 +217,7 @@ export default function VibeEditScreen() {
                     flexDirection: 'row',
                   },
                 ]}
-                onPress={() => setEmojiPickerVisible(true)}
+                onPress={() => inputEmojiRef.current?.focus()}
               >
                 <LinearGradient
                   colors={['#b0485b', '#ff6f61']}
@@ -233,21 +227,16 @@ export default function VibeEditScreen() {
                 >
                   <Text style={styles.inputText}>Change</Text>
                 </LinearGradient>
-                <Text
-                  style={[
-                    styles.inputButton,
-                    styles.inputText,
-                    { fontSize: 22 },
-                  ]}
-                >
-                  {emoji}
-                </Text>
+                <TextInput
+                  ref={inputEmojiRef}
+                  value={emoji}
+                  placeholder="e.g. 😃"
+                  placeholderTextColor="#999"
+                  onChangeText={handleChangeEmoji}
+                  textAlign="center"
+                  style={[styles.inputEmoji]}
+                />
               </TouchableOpacity>
-              {emojiPickerVisible && <Picker
-                onEmojiSelect={handleEmojiSelected}
-                open={emojiPickerVisible}
-                onClickOutside={() => setEmojiPickerVisible(false)}
-              />}
               <Text style={[styles.errorLabel]}>
                 {isEmojiError ? 'You have to pick an emoji' : ''}
               </Text>
@@ -261,7 +250,10 @@ export default function VibeEditScreen() {
                   styles.input,
                   { height: inputContainerHeight, flexDirection: 'row' },
                 ]}
-                onPress={() => setColorPickerVisible(true)}
+                onPress={() => {
+                  Keyboard.dismiss();
+                  setIsColorPickerVisible(true);
+                }}
               >
                 <LinearGradient
                   colors={['#b0485b', '#ff6f61']}
@@ -310,20 +302,20 @@ export default function VibeEditScreen() {
 
       {/* Color Picker Modal */}
       <ColorPickerModal
-        visible={colorPickerVisible}
+        visible={isColorPickerVisible}
         color={color}
         onColorSelect={handleColorSelect}
-        onClose={() => setColorPickerVisible(false)}
+        onClose={() => setIsColorPickerVisible(false)}
       />
 
       {/* Confirm modal */}
       <ConfirmModal
-        visible={confirmModalVisible}
+        visible={isConfirmModalVisible}
         title="Discard changes?"
         acceptText="Yes"
         cancelText="Cancel"
         onConfirm={() => router.back()}
-        onClose={closeConfirmModal}
+        onClose={() => setIsConfirmModalVisible(false)}
       />
     </View>
   );
@@ -397,6 +389,16 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     borderTopLeftRadius: 3.5,
     borderBottomLeftRadius: 3.5,
+  },
+  inputEmoji: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    textAlign: 'center',
+    borderTopRightRadius: 3.5,
+    borderBottomRightRadius: 3.5,
+    fontSize: 22,
+    minWidth: 0,
   },
   inputText: {
     flex: 1,
