@@ -261,6 +261,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowRadius: 10,
     elevation: 5,
+    userSelect: 'none',
   },
   cooldownIndicator: {
     position: 'absolute',
@@ -272,5 +273,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'italic',
     padding: 20,
+    userSelect: 'none',
   },
 });
