@@ -19,15 +19,7 @@ import Color from 'color';
 import { ColorPickerModal } from '@/components/ColorPickerModal';
 import DataContext from '@/components/DataContext';
 import { v4 as uuidv4, validate } from 'uuid';
-import { ThemedText } from '@/components/ThemedText';
-
-const defaultVibe: Vibe = {
-  id: '',
-  text: '',
-  emoji: '',
-  color: '#000',
-  isConfirmable: false,
-};
+import { DefaultVibe } from '@/utils/defaults';
 
 export default function VibeEditScreen() {
   const router = useRouter();
@@ -35,7 +27,7 @@ export default function VibeEditScreen() {
   const dataContext = useContext(DataContext);
   const inputEmojiRef = useRef<TextInput>(null);
 
-  const [vibe, setVibe] = useState(defaultVibe);
+  const [vibe, setVibe] = useState(DefaultVibe);
   const [text, setText] = useState(vibe.text);
   const [emoji, setEmoji] = useState(vibe.emoji);
   const [color, setColor] = useState(vibe.color);

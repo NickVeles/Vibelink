@@ -1,23 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Vibe } from '../models/Vibe';
 import { Settings } from '@/models/Settings';
+import { DefaultSettings } from './defaults';
 
 const VIBES_KEY = 'vibes';
 const SETTINGS_KEY = 'settings'
-
-const DefaultVibe: Vibe = {
-  id: '',
-  text: '',
-  emoji: '',
-  color: '#000',
-  isConfirmable: false,
-};
-
-export const DefaultSettings: Settings = {
-  isLeftEmojiVisible: true,
-  isRightEmojiVisible: false,
-  isCustomConnection: false,
-};
 
 export const saveVibes = async (vibes: Vibe[]): Promise<void> => {
   try {

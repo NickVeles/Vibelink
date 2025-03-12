@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { loadVibes, saveVibes, saveOrUpdateVibe, loadSettings, DefaultSettings, saveSettings } from '@/utils/storage';
+import { loadVibes, saveVibes, saveOrUpdateVibe, loadSettings, saveSettings } from '@/utils/storage';
 import { Vibe } from '@/models/Vibe';
 import { Settings } from '@/models/Settings';
+import { DefaultSettings } from '@/utils/defaults';
 
 interface DataContextType {
   vibes: Vibe[];
