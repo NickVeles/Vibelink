@@ -1,7 +1,7 @@
 import DataContext from '@/components/DataContext';
 import Header from '@/components/Header';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { BackIcon, EmojiIcon } from '@/components/ui/Icon';
+import { BackIcon, EmojiIcon, TrashIcon } from '@/components/ui/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useContext, useEffect, useState } from 'react';
@@ -70,6 +70,10 @@ export default function SettingsScreen() {
       isRightEmojiVisible: !settings.isRightEmojiVisible,
     });
   };
+
+  const testConnection = () => {};
+
+  const resetConnection = () => {};
 
   return (
     <View style={{ flex: 1 }}>
@@ -299,10 +303,42 @@ export default function SettingsScreen() {
                   <TextInput
                     value={appId}
                     onChangeText={setAppId}
-                    placeholder="e.g. 1:123456789012:web:1234abcd5678efgh90ij"
+                    placeholder="e.g. 1:123...789:web:1234a...gh90ij"
                     placeholderTextColor="#999"
                     style={[styles.input, { padding: 8 }]}
                   />
+                </View>
+                <View
+                  style={[
+                    styles.inputContainer,
+                    { flexDirection: 'row', gap: 16 },
+                  ]}
+                >
+                  <TouchableOpacity
+                    style={[styles.input, styles.inputButton]}
+                    onPress={testConnection}
+                  >
+                    <Text
+                      style={[
+                        styles.inputText,
+                        { flex: 1, color: '#121212' },
+                      ]}
+                    >
+                      Set & Test
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.input,
+                      styles.inputButton,
+                      { width: 45, backgroundColor: '#b0485b' },
+                    ]}
+                    onPress={resetConnection}
+                  >
+                    <Text style={[styles.inputText, { padding: 8, flex: 1 }]}>
+                      Reset
+                    </Text>
+                  </TouchableOpacity>
                 </View>
               </>
             )}
