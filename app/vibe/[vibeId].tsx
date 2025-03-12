@@ -337,7 +337,7 @@ export default function VibeEditScreen() {
           </>
         )}
         {!isValidUuid && (
-          <ThemedText style={styles.loadingText}>Loading vibe...</ThemedText>
+          <Text style={styles.loadingText}>Loading vibe...</Text>
         )}
       </ParallaxScrollView>
 
