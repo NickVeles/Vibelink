@@ -44,6 +44,10 @@ export default function HomeScreen() {
     }
   }, [buttonsDisabled]);
 
+  const settings = async () => {
+    router.push(`/settings`);
+  }
+
   const addVibe = async () => {
     router.push(`/vibe/add-vibe`);
   };
@@ -119,7 +123,10 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      <Header leftButton={<SettingsIcon height={32} width={32} />} />
+      <Header
+        leftButton={<SettingsIcon height={32} width={32} />}
+        onLeftPress={settings}
+      />
 
       {/* Vibe buttons */}
       <ParallaxScrollView>
