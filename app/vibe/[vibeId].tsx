@@ -25,6 +25,7 @@ export default function VibeEditScreen() {
   const router = useRouter();
   const { vibeId } = useLocalSearchParams();
   const dataContext = useContext(DataContext);
+  const settings = dataContext?.settings;
   const inputEmojiRef = useRef<TextInput>(null);
 
   const [vibe, setVibe] = useState(DefaultVibe);
@@ -163,11 +164,25 @@ export default function VibeEditScreen() {
               }}
             >
               {/* Button Content */}
-              <Text style={styles.emoji}>{emoji}</Text>
+              <Text
+                style={[
+                  styles.emoji,
+                  { opacity: settings?.isLeftEmojiVisible ? 1 : 0 },
+                ]}
+              >
+                {emoji}
+              </Text>
               <Text style={[styles.vibeText, { maxWidth: maxTextWidth }]}>
                 {text.trim() ? text.trim() : ' '}
               </Text>
-              <Text style={[styles.emoji, { opacity: 0 }]}>{emoji}</Text>
+              <Text
+                style={[
+                  styles.emoji,
+                  { opacity: settings?.isRightEmojiVisible ? 1 : 0 },
+                ]}
+              >
+                {emoji}
+              </Text>
             </LinearGradient>
 
             {/* Text */}
@@ -261,10 +276,7 @@ export default function VibeEditScreen() {
               <Text style={styles.label}>Ask me before sending this vibe</Text>
               <TouchableOpacity
                 activeOpacity={1}
-                style={[
-                  styles.input,
-                  { flexDirection: 'row' },
-                ]}
+                style={[styles.input, { flexDirection: 'row' }]}
                 onPress={() => setIsConfirmable(!isConfirmable)}
               >
                 <LinearGradient
