@@ -24,6 +24,7 @@ export default function HomeScreen() {
   const router = useRouter();
   const dataContext = useContext(DataContext);
   const vibes = dataContext?.vibes;
+  const settings = dataContext?.settings;
   const cooldownDuration = 3000;
 
   const [modalVisible, setModalVisible] = useState(false);
@@ -44,11 +45,11 @@ export default function HomeScreen() {
     }
   }, [buttonsDisabled]);
 
-  const settings = async () => {
+  const routeSettings = async () => {
     router.push(`/settings`);
-  }
+  };
 
-  const addVibe = async () => {
+  const routeAddVibe = async () => {
     router.push(`/vibe/add-vibe`);
   };
 
@@ -125,7 +126,7 @@ export default function HomeScreen() {
     <View style={{ flex: 1 }}>
       <Header
         leftButton={<SettingsIcon height={32} width={32} />}
-        onLeftPress={settings}
+        onLeftPress={routeSettings}
       />
 
       {/* Vibe buttons */}
@@ -166,13 +167,25 @@ export default function HomeScreen() {
                 disabled={buttonsDisabled}
               >
                 {/* Button Content */}
-                <ThemedText style={styles.emoji}>{vibe.emoji}</ThemedText>
+                <ThemedText
+                  style={[
+                    styles.emoji,
+                    { opacity: settings?.isLeftEmojiVisible ? 1 : 0 },
+                  ]}
+                >
+                  {vibe.emoji}
+                </ThemedText>
                 <ThemedText
                   style={[styles.vibeText, { maxWidth: maxTextWidth }]}
                 >
                   {vibe.text}
                 </ThemedText>
-                <ThemedText style={[styles.emoji, { opacity: 0 }]}>
+                <ThemedText
+                  style={[
+                    styles.emoji,
+                    { opacity: settings?.isRightEmojiVisible ? 1 : 0 },
+                  ]}
+                >
                   {vibe.emoji}
                 </ThemedText>
               </TouchableOpacity>
@@ -186,7 +199,7 @@ export default function HomeScreen() {
       {/* Add button */}
       {dataContext && (
         <FloatingButton
-          onPress={addVibe}
+          onPress={routeAddVibe}
           color1="#ff6f61"
           color2="#b0485b"
           content={<AddIcon height={50} width={50} />}
