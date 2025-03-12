@@ -106,7 +106,7 @@ export default function SettingsScreen() {
                     },
                   ]}
                 >
-                  <Text style={[styles.inputText, { color: '#121212' }]}>
+                  <Text style={[styles.inputText, { color: '#999' }]}>
                     Happy
                   </Text>
                 </View>
