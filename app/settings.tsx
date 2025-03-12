@@ -71,7 +71,9 @@ export default function SettingsScreen() {
     });
   };
 
-  const testConnection = () => {};
+  const setConnection = () => {
+
+  };
 
   const resetConnection = () => {};
 
@@ -316,7 +318,7 @@ export default function SettingsScreen() {
                 >
                   <TouchableOpacity
                     style={[styles.input, styles.inputButton]}
-                    onPress={testConnection}
+                    onPress={setConnection}
                   >
                     <Text
                       style={[
@@ -324,7 +326,7 @@ export default function SettingsScreen() {
                         { flex: 1, color: '#121212' },
                       ]}
                     >
-                      Set & Test
+                      Set & Connect
                     </Text>
                   </TouchableOpacity>
                   <TouchableOpacity
