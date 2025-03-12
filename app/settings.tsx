@@ -72,7 +72,7 @@ export default function SettingsScreen() {
                 >
                   <LinearGradient
                     colors={
-                      !settings?.isLeftEmojiVisible
+                      settings?.isLeftEmojiVisible
                         ? ['#b0485b', '#ff6f61']
                         : ['#f9f9f9', '#f9f9f9']
                     }
@@ -90,7 +90,7 @@ export default function SettingsScreen() {
                       height={36}
                       width={36}
                       stroke={
-                        !settings?.isLeftEmojiVisible ? '#f9f9f9' : '#121212'
+                        settings?.isLeftEmojiVisible ? '#f9f9f9' : '#121212'
                       }
                     />
                   </LinearGradient>
