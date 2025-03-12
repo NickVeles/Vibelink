@@ -42,7 +42,6 @@ export default function VibeEditScreen() {
   const [isConfirmable, setIsConfirmable] = useState(vibe.isConfirmable);
 
   const [maxTextWidth, setMaxTextWidth] = useState(0);
-  const [inputContainerHeight, setInputContainerHeight] = useState(0);
   const [isColorPickerVisible, setIsColorPickerVisible] = useState(false);
   const [isConfirmModalVisible, setIsConfirmModalVisible] = useState(false);
 
@@ -194,10 +193,6 @@ export default function VibeEditScreen() {
                     padding: 8,
                   },
                 ]}
-                onLayout={(event) => {
-                  const { height } = event.nativeEvent.layout;
-                  setInputContainerHeight(height);
-                }}
               />
               <Text style={[styles.errorLabel]}>
                 {isTextError ? 'Your vibe cannot be empty' : ''}
@@ -213,7 +208,6 @@ export default function VibeEditScreen() {
                   styles.input,
                   {
                     borderColor: isEmojiError ? '#b0485b' : '#424242',
-                    height: inputContainerHeight,
                     flexDirection: 'row',
                   },
                 ]}
@@ -247,10 +241,7 @@ export default function VibeEditScreen() {
               <Text style={styles.label}>Color</Text>
               <TouchableOpacity
                 activeOpacity={1}
-                style={[
-                  styles.input,
-                  { height: inputContainerHeight, flexDirection: 'row' },
-                ]}
+                style={[styles.input, { flexDirection: 'row' }]}
                 onPress={() => {
                   Keyboard.dismiss();
                   setIsColorPickerVisible(true);
@@ -280,10 +271,7 @@ export default function VibeEditScreen() {
                 activeOpacity={1}
                 style={[
                   styles.input,
-                  {
-                    height: inputContainerHeight,
-                    flexDirection: 'row',
-                  },
+                  { flexDirection: 'row' },
                 ]}
                 onPress={() => setIsConfirmable(!isConfirmable)}
               >
@@ -434,6 +422,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     borderRadius: 5,
     borderWidth: 1,
+    height: 45,
   },
   inputButton: {
     flex: 1,
