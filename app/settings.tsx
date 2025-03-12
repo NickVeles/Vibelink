@@ -4,8 +4,14 @@ import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { BackIcon, EmojiIcon } from '@/components/ui/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useContext, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useContext, useEffect, useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TextInput,
+} from 'react-native';
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -13,6 +19,22 @@ export default function SettingsScreen() {
 
   const settings = dataContext?.settings;
   const [isShowSensitiveSettings, setIsShowSensitiveSettings] = useState(false);
+  const [apiKey, setApiKey] = useState(
+    settings?.customConnection?.apiKey ?? ''
+  );
+  const [authDomain, setAuthDomain] = useState(
+    settings?.customConnection?.authDomain ?? ''
+  );
+  const [projectId, setProjectId] = useState(
+    settings?.customConnection?.projectId ?? ''
+  );
+  const [storageBucket, setStorageBucket] = useState(
+    settings?.customConnection?.storageBucket ?? ''
+  );
+  const [messagingSenderId, setMessagingSenderId] = useState(
+    settings?.customConnection?.messagingSenderId ?? ''
+  );
+  const [appId, setAppId] = useState(settings?.customConnection?.appId ?? '');
 
   const handleLeave = () => {
     router.back();
@@ -142,7 +164,6 @@ export default function SettingsScreen() {
                   </LinearGradient>
                 </TouchableOpacity>
               </View>
-              <View style={[styles.errorLabel]} />
             </View>
 
             {/* isCustomConnection? */}
@@ -212,12 +233,78 @@ export default function SettingsScreen() {
                   </Text>
                 </LinearGradient>
               </TouchableOpacity>
-              <View style={[styles.errorLabel]} />
             </View>
 
             {/* isShowSensitiveSettings? */}
             {settings.isCustomConnection && isShowSensitiveSettings && (
-              <View>{/*  */}</View>
+              <>
+                {/* API KEY */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>API key</Text>
+                  <TextInput
+                    value={apiKey}
+                    onChangeText={setApiKey}
+                    placeholder="e.g. AIzaSyDk...your_api_key..._dF9"
+                    placeholderTextColor="#999"
+                    style={[styles.input, { padding: 8 }]}
+                  />
+                </View>
+                {/* AUTH DOMAIN */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Authentification domain</Text>
+                  <TextInput
+                    value={authDomain}
+                    onChangeText={setAuthDomain}
+                    placeholder="e.g. your-project-id.firebaseapp.com"
+                    placeholderTextColor="#999"
+                    style={[styles.input, { padding: 8 }]}
+                  />
+                </View>
+                {/* PROJECT ID */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Project ID</Text>
+                  <TextInput
+                    value={projectId}
+                    onChangeText={setProjectId}
+                    placeholder="e.g. your-project-id"
+                    placeholderTextColor="#999"
+                    style={[styles.input, { padding: 8 }]}
+                  />
+                </View>
+                {/* STORAGE BUCKET */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Storage bucket</Text>
+                  <TextInput
+                    value={storageBucket}
+                    onChangeText={setStorageBucket}
+                    placeholder="e.g. your-project-id.appspot.com"
+                    placeholderTextColor="#999"
+                    style={[styles.input, { padding: 8 }]}
+                  />
+                </View>
+                {/* MESSAGING SENDER ID */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>Cloud messaging</Text>
+                  <TextInput
+                    value={messagingSenderId}
+                    onChangeText={setMessagingSenderId}
+                    placeholder="e.g. 123456789012"
+                    placeholderTextColor="#999"
+                    style={[styles.input, { padding: 8 }]}
+                  />
+                </View>
+                {/* APP ID */}
+                <View style={styles.inputContainer}>
+                  <Text style={styles.label}>App ID</Text>
+                  <TextInput
+                    value={appId}
+                    onChangeText={setAppId}
+                    placeholder="e.g. 1:123456789012:web:1234abcd5678efgh90ij"
+                    placeholderTextColor="#999"
+                    style={[styles.input, { padding: 8 }]}
+                  />
+                </View>
+              </>
             )}
             {settings.isCustomConnection && !isShowSensitiveSettings && (
               <Text
