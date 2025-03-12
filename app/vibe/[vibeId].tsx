@@ -141,7 +141,7 @@ export default function VibeEditScreen() {
 
     await dataContext?.addOrUpdateVibe(updatedVibe);
 
-    router.back(); // this doesn't work?
+    router.back();
   };
 
   return (
