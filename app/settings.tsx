@@ -12,8 +12,12 @@ import {
   TouchableOpacity,
   TextInput,
   ActivityIndicator,
+  Alert,
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
+import { initializeApp } from 'firebase/app';
+import { Settings } from '@/models/Settings';
+import { FirebaseConnection } from '@/models/FirebaseConnection';
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -75,36 +79,54 @@ export default function SettingsScreen() {
     });
   };
 
-  const setConnection = (isReset?: boolean) => {
-    if (!settings) return;
+  const setConnection = (isReset?: boolean): FirebaseConnection => {
+    const connection: FirebaseConnection = {
+      apiKey: apiKey,
+      authDomain: authDomain,
+      projectId: projectId,
+      storageBucket: storageBucket,
+      messagingSenderId: messagingSenderId,
+      appId: appId,
+    };
 
     dataContext?.updateSettings({
-      ...settings,
-      customConnection: isReset
-        ? undefined
-        : {
-            apiKey: apiKey,
-            authDomain: authDomain,
-            projectId: projectId,
-            storageBucket: storageBucket,
-            messagingSenderId: messagingSenderId,
-            appId: appId,
-          },
+      ...settings!,
+      customConnection: isReset ? undefined : connection,
     });
+
+    return connection;
   };
 
-  const connect = async () => {
-    setConnection();
+  const handleConnect = async () => {
+    if (!settings) return;
+    const connection = setConnection();
+
+    if (
+      !connection ||
+      Object.values(connection).some((value) => value === '')
+    ) {
+      Alert.alert('Error', 'Please, fill all connection fields');
+      console.error('Please, fill all connection fields');
+      return;
+    }
+
+
+    //TODO: WHY FIREBASE CONNECTED?
     try {
       setIsConnecting(true);
+      initializeApp(connection);
+      Alert.alert('Success', 'Firebase connected!');
+      console.log('Firebase connected!');
     } catch (error: any) {
-      console.error('Error: ', error.message);
+      Alert.alert('Error', 'Failed to connect to Firebase');
+      console.error('Failed to connect to Firebase');
     } finally {
       setIsConnecting(false);
     }
   };
 
   const resetConnection = () => {
+    if (!settings) return;
     setApiKey('');
     setAuthDomain('');
     setProjectId('');
@@ -356,7 +378,7 @@ export default function SettingsScreen() {
                 >
                   <TouchableOpacity
                     style={[styles.input, styles.inputButton]}
-                    onPress={connect}
+                    onPress={handleConnect}
                     disabled={isConnecting}
                   >
                     {isConnecting ? (
