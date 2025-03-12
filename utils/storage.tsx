@@ -5,6 +5,14 @@ import { Settings } from '@/models/Settings';
 const VIBES_KEY = 'vibes';
 const SETTINGS_KEY = 'settings'
 
+const DefaultVibe: Vibe = {
+  id: '',
+  text: '',
+  emoji: '',
+  color: '#000',
+  isConfirmable: false,
+};
+
 export const DefaultSettings: Settings = {
   isLeftEmojiVisible: true,
   isRightEmojiVisible: false,
