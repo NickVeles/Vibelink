@@ -21,6 +21,10 @@ export default function SettingsScreen() {
   const switchCustomConnection = () => {
     if (!settings) return;
 
+    if (settings.isCustomConnection) {
+      setIsShowSensitiveSettings(false);
+    }
+
     dataContext?.updateSettings({
       ...settings,
       isCustomConnection: !settings.isCustomConnection,
