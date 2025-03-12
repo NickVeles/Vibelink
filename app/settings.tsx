@@ -12,7 +12,7 @@ export default function SettingsScreen() {
   const dataContext = useContext(DataContext);
   const settings = dataContext?.settings;
 
-  const [isShowCustomConnection, setIsShowCustomConnection] = useState(true);
+  const [isShowSensitiveSettings, setIsShowSensitiveSettings] = useState(true);
 
   const handleLeave = () => {
     router.back();
@@ -24,7 +24,7 @@ export default function SettingsScreen() {
     dataContext.updateSettings({
       ...settings,
       isCustomConnection: !settings.isCustomConnection,
-    })
+    });
   };
 
   return (
@@ -102,11 +102,22 @@ export default function SettingsScreen() {
               </TouchableOpacity>
               <View style={[styles.errorLabel]} />
             </View>
+
+            {/* isShowSensitiveSettings? */}
+            {settings.isCustomConnection && isShowSensitiveSettings && (
+              <View>{/*  */}</View>
+            )}
+            {settings.isCustomConnection && !isShowSensitiveSettings && (
+              <Text
+                style={[styles.inputContainer, styles.sensitive]}
+                onPress={() => setIsShowSensitiveSettings(true)}
+              >
+                Show sensitive settings
+              </Text>
+            )}
           </>
         )}
-        {!settings && (
-          <Text style={styles.loadingText}>Loading vibe...</Text>
-        )}
+        {!settings && <Text style={styles.loadingText}>Loading vibe...</Text>}
       </ParallaxScrollView>
     </View>
   );
@@ -154,5 +165,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#b0485b',
     userSelect: 'none',
+  },
+  sensitive: {
+    color: '#0091f7',
+    userSelect: 'none',
+    fontStyle: 'italic',
+    textDecorationLine: 'underline',
   },
 });
