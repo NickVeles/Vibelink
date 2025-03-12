@@ -1,9 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getVibes, saveVibes, saveOrUpdateVibe } from '@/utils/storage';
+import { loadVibes, saveVibes, saveOrUpdateVibe, loadSettings, DefaultSettings, saveSettings } from '@/utils/storage';
 import { Vibe } from '@/models/Vibe';
+import { Settings } from '@/models/Settings';
 
 interface DataContextType {
   vibes: Vibe[];
+  settings: Settings;
   addOrUpdateVibe: (vibe: Vibe) => Promise<void>;
   updateVibes: (vibes: Vibe[]) => Promise<void>;
 }
@@ -16,10 +18,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [vibes, setVibes] = useState<Vibe[]>([]);
+  const [settings, setSettings] = useState<Settings>(DefaultSettings);
 
-  // Load vibes from AsyncStorage once when the app starts
+  // Load data from AsyncStorage once when the app starts
   useEffect(() => {
-    getVibes().then(setVibes);
+    loadVibes().then(setVibes);
+    loadSettings().then(setSettings);
   }, []);
 
   const addOrUpdateVibe = async (vibe: Vibe) => {
@@ -37,8 +41,13 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
     setVibes(updatedVibes);
   };
 
+  const updateSettings = async (updatedSettings: Settings) => {
+    await saveSettings(updatedSettings);
+    setSettings(updatedSettings);
+  };
+
   return (
-    <DataContext.Provider value={{ vibes, addOrUpdateVibe, updateVibes }}>
+    <DataContext.Provider value={{ vibes, settings, addOrUpdateVibe, updateVibes }}>
       {children}
     </DataContext.Provider>
   );
