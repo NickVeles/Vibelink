@@ -1,5 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { loadVibes, saveVibes, saveOrUpdateVibe, loadSettings, saveSettings } from '@/utils/storage';
+import {
+  loadVibes,
+  saveVibes,
+  saveOrUpdateVibe,
+  loadSettings,
+  saveSettings,
+} from '@/utils/storage';
 import { Vibe } from '@/models/Vibe';
 import { Settings } from '@/models/Settings';
 import { DefaultSettings } from '@/utils/defaults';
@@ -9,6 +15,7 @@ interface DataContextType {
   settings: Settings;
   addOrUpdateVibe: (vibe: Vibe) => Promise<void>;
   updateVibes: (vibes: Vibe[]) => Promise<void>;
+  updateSettings: (settings: Settings) => Promise<void>;
 }
 
 export const DataContext = createContext<DataContextType | undefined>(
@@ -48,7 +55,9 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   return (
-    <DataContext.Provider value={{ vibes, settings, addOrUpdateVibe, updateVibes }}>
+    <DataContext.Provider
+      value={{ vibes, settings, addOrUpdateVibe, updateVibes, updateSettings }}
+    >
       {children}
     </DataContext.Provider>
   );
