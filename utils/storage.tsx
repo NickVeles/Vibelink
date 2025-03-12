@@ -1,7 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Vibe } from '../models/Vibe';
+import { Settings } from '@/models/Settings';
 
 const VIBES_KEY = 'vibes';
+const SETTINGS_KEY = 'settings'
 
 export const saveVibes = async (vibes: Vibe[]): Promise<void> => {
   try {
@@ -12,7 +14,16 @@ export const saveVibes = async (vibes: Vibe[]): Promise<void> => {
   }
 };
 
-export const getVibes = async (): Promise<Vibe[]> => {
+export const saveSettings = async (settings: Settings): Promise<void> => {
+  try {
+    const jsonValue = JSON.stringify(settings);
+    await AsyncStorage.setItem(SETTINGS_KEY, jsonValue);
+  } catch (e) {
+    console.error('Failed to save settings to AsyncStorage', e);
+  }
+};
+
+export const loadVibes = async (): Promise<Vibe[]> => {
   try {
     const jsonValue = await AsyncStorage.getItem(VIBES_KEY);
     return jsonValue != null ? JSON.parse(jsonValue) : [];
@@ -22,9 +33,19 @@ export const getVibes = async (): Promise<Vibe[]> => {
   }
 };
 
+export const loadSettings = async (): Promise<Vibe[]> => {
+  try {
+    const jsonValue = await AsyncStorage.getItem(SETTINGS_KEY);
+    return jsonValue != null ? JSON.parse(jsonValue) : [];
+  } catch (e) {
+    console.error('Failed to load settings from AsyncStorage', e);
+    return [];
+  }
+};
+
 export const saveOrUpdateVibe = async (vibeToSave: Vibe): Promise<void> => {
   try {
-    const existingVibes = await getVibes();
+    const existingVibes = await loadVibes();
     const vibeIndex = existingVibes.findIndex((vibe) => vibe.id === vibeToSave.id);
 
     if (vibeIndex !== -1) {
