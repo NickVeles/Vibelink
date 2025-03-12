@@ -5,6 +5,12 @@ import { Settings } from '@/models/Settings';
 const VIBES_KEY = 'vibes';
 const SETTINGS_KEY = 'settings'
 
+export const DefaultSettings: Settings = {
+  isLeftEmojiVisible: true,
+  isRightEmojiVisible: false,
+  isCustomConnection: false,
+};
+
 export const saveVibes = async (vibes: Vibe[]): Promise<void> => {
   try {
     const jsonValue = JSON.stringify(vibes);
@@ -33,13 +39,13 @@ export const loadVibes = async (): Promise<Vibe[]> => {
   }
 };
 
-export const loadSettings = async (): Promise<Vibe[]> => {
+export const loadSettings = async (): Promise<Settings> => {
   try {
     const jsonValue = await AsyncStorage.getItem(SETTINGS_KEY);
-    return jsonValue != null ? JSON.parse(jsonValue) : [];
+    return jsonValue != null ? JSON.parse(jsonValue) : DefaultSettings;
   } catch (e) {
     console.error('Failed to load settings from AsyncStorage', e);
-    return [];
+    return DefaultSettings;
   }
 };
 
