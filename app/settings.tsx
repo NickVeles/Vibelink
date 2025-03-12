@@ -11,7 +11,9 @@ import {
   StyleSheet,
   TouchableOpacity,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -35,6 +37,8 @@ export default function SettingsScreen() {
     settings?.customConnection?.messagingSenderId ?? ''
   );
   const [appId, setAppId] = useState(settings?.customConnection?.appId ?? '');
+
+  const [isConnecting, setIsConnecting] = useState(false);
 
   const handleLeave = () => {
     router.back();
@@ -71,11 +75,44 @@ export default function SettingsScreen() {
     });
   };
 
-  const setConnection = () => {
+  const setConnection = (isReset?: boolean) => {
+    if (!settings) return;
 
+    dataContext?.updateSettings({
+      ...settings,
+      customConnection: isReset
+        ? undefined
+        : {
+            apiKey: apiKey,
+            authDomain: authDomain,
+            projectId: projectId,
+            storageBucket: storageBucket,
+            messagingSenderId: messagingSenderId,
+            appId: appId,
+          },
+    });
   };
 
-  const resetConnection = () => {};
+  const connect = async () => {
+    setConnection();
+    try {
+      setIsConnecting(true);
+    } catch (error: any) {
+      console.error('Error: ', error.message);
+    } finally {
+      setIsConnecting(false);
+    }
+  };
+
+  const resetConnection = () => {
+    setApiKey('');
+    setAuthDomain('');
+    setProjectId('');
+    setStorageBucket('');
+    setMessagingSenderId('');
+    setAppId('');
+    setConnection(true);
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -252,6 +289,7 @@ export default function SettingsScreen() {
                     onChangeText={setApiKey}
                     placeholder="e.g. AIzaSyDk...your_api_key..._dF9"
                     placeholderTextColor="#999"
+                    secureTextEntry={true}
                     style={[styles.input, { padding: 8 }]}
                   />
                 </View>
@@ -313,21 +351,40 @@ export default function SettingsScreen() {
                 <View
                   style={[
                     styles.inputContainer,
-                    { flexDirection: 'row', gap: 16 },
+                    { flexDirection: 'row', gap: 20 },
                   ]}
                 >
                   <TouchableOpacity
                     style={[styles.input, styles.inputButton]}
-                    onPress={setConnection}
+                    onPress={connect}
+                    disabled={isConnecting}
                   >
-                    <Text
-                      style={[
-                        styles.inputText,
-                        { flex: 1, color: '#121212' },
-                      ]}
-                    >
-                      Set & Connect
-                    </Text>
+                    {isConnecting ? (
+                      <Animatable.View
+                        animation="fadeIn"
+                        duration={500}
+                        key="connecting"
+                        style={[
+                          styles.inputButton,
+                          {
+                            width: '100%',
+                            backgroundColor: '#55c937',
+                            borderRadius: 3.5,
+                          },
+                        ]}
+                      >
+                        <ActivityIndicator size={32} color="#f9f9f9" />
+                      </Animatable.View>
+                    ) : (
+                      <Text
+                        style={[
+                          styles.inputText,
+                          { flex: 1, color: '#121212' },
+                        ]}
+                      >
+                        Set & Connect
+                      </Text>
+                    )}
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={[
@@ -336,6 +393,7 @@ export default function SettingsScreen() {
                       { width: 45, backgroundColor: '#b0485b' },
                     ]}
                     onPress={resetConnection}
+                    disabled={isConnecting}
                   >
                     <Text style={[styles.inputText, { padding: 8, flex: 1 }]}>
                       Reset
