@@ -40,7 +40,7 @@ export default function SettingsScreen() {
           <>
             {/* isCustomConnection? */}
             <View style={styles.inputContainer}>
-              <Text style={styles.label}>Ask me before sending this vibe</Text>
+              <Text style={styles.label}>Use custom connection</Text>
               <TouchableOpacity
                 activeOpacity={1}
                 style={[styles.input, { flexDirection: 'row' }]}
