@@ -116,7 +116,7 @@ export default function VibeEditScreen() {
     setIsColorPickerVisible(false);
   };
 
-  const handleLeave = async () => {
+  const handleLeave = () => {
     if (
       vibe.text == text &&
       vibe.emoji == emoji &&
