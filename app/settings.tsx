@@ -1,7 +1,7 @@
 import DataContext from '@/components/DataContext';
 import Header from '@/components/Header';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { BackIcon } from '@/components/ui/Icon';
+import { BackIcon, EmojiIcon } from '@/components/ui/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { useContext, useState } from 'react';
@@ -10,7 +10,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 export default function SettingsScreen() {
   const router = useRouter();
   const dataContext = useContext(DataContext);
-  
+
   const settings = dataContext?.settings;
   const [isShowSensitiveSettings, setIsShowSensitiveSettings] = useState(false);
 
@@ -31,6 +31,24 @@ export default function SettingsScreen() {
     });
   };
 
+  const switchLeftEmojiVisible = () => {
+    if (!settings) return;
+
+    dataContext?.updateSettings({
+      ...settings,
+      isLeftEmojiVisible: !settings.isLeftEmojiVisible,
+    });
+  };
+
+  const switchRightEmojiVisible = () => {
+    if (!settings) return;
+
+    dataContext?.updateSettings({
+      ...settings,
+      isRightEmojiVisible: !settings.isRightEmojiVisible,
+    });
+  };
+
   return (
     <View style={{ flex: 1 }}>
       <Header
@@ -42,6 +60,91 @@ export default function SettingsScreen() {
       <ParallaxScrollView>
         {settings && (
           <>
+            {/* Vibe button layout */}
+            <View style={styles.inputContainer}>
+              <Text style={styles.label}>Vibe button layout</Text>
+              <View style={[styles.input, { flexDirection: 'row' }]}>
+                {/* LEFT */}
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={switchLeftEmojiVisible}
+                  style={{ flex: 3 }}
+                >
+                  <LinearGradient
+                    colors={
+                      !settings?.isLeftEmojiVisible
+                        ? ['#b0485b', '#ff6f61']
+                        : ['#f9f9f9', '#f9f9f9']
+                    }
+                    start={[1, 0]}
+                    end={[0, 0.75]}
+                    style={[
+                      styles.inputButton,
+                      {
+                        borderTopLeftRadius: 3.5,
+                        borderBottomLeftRadius: 3.5,
+                      },
+                    ]}
+                  >
+                    <EmojiIcon
+                      height={36}
+                      width={36}
+                      stroke={
+                        !settings?.isLeftEmojiVisible ? '#f9f9f9' : '#121212'
+                      }
+                    />
+                  </LinearGradient>
+                </TouchableOpacity>
+                {/* MIDDLE */}
+                <View
+                  style={[
+                    styles.inputButton,
+                    {
+                      flex: 4,
+                      borderLeftWidth: 1,
+                      borderRightWidth: 1,
+                    },
+                  ]}
+                >
+                  <Text style={[styles.inputText, { color: '#121212' }]}>
+                    Happy
+                  </Text>
+                </View>
+                {/* RIGHT */}
+                <TouchableOpacity
+                  activeOpacity={1}
+                  onPress={switchRightEmojiVisible}
+                  style={{ flex: 3 }}
+                >
+                  <LinearGradient
+                    colors={
+                      settings?.isRightEmojiVisible
+                        ? ['#b0485b', '#ff6f61']
+                        : ['#f9f9f9', '#f9f9f9']
+                    }
+                    start={[0, 0.75]}
+                    end={[1, 0]}
+                    style={[
+                      styles.inputButton,
+                      {
+                        borderTopRightRadius: 3.5,
+                        borderBottomRightRadius: 3.5,
+                      },
+                    ]}
+                  >
+                    <EmojiIcon
+                      height={36}
+                      width={36}
+                      stroke={
+                        settings?.isRightEmojiVisible ? '#f9f9f9' : '#121212'
+                      }
+                    />
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+              <View style={[styles.errorLabel]} />
+            </View>
+
             {/* isCustomConnection? */}
             <View style={styles.inputContainer}>
               <Text style={styles.label}>Use custom connection</Text>
@@ -58,7 +161,13 @@ export default function SettingsScreen() {
                   }
                   start={[1, 0]}
                   end={[0, 0.75]}
-                  style={styles.inputButton}
+                  style={[
+                    styles.inputButton,
+                    {
+                      borderTopLeftRadius: 3.5,
+                      borderBottomLeftRadius: 3.5,
+                    },
+                  ]}
                 >
                   <Text
                     style={[
@@ -84,7 +193,6 @@ export default function SettingsScreen() {
                   style={[
                     styles.inputButton,
                     {
-                      borderRadius: 0,
                       borderTopRightRadius: 3.5,
                       borderBottomRightRadius: 3.5,
                     },
@@ -147,8 +255,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
-    borderTopLeftRadius: 3.5,
-    borderBottomLeftRadius: 3.5,
+    alignItems: 'center',
   },
   inputText: {
     flex: 1,
