@@ -10,9 +10,9 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 export default function SettingsScreen() {
   const router = useRouter();
   const dataContext = useContext(DataContext);
+  
   const settings = dataContext?.settings;
-
-  const [isShowSensitiveSettings, setIsShowSensitiveSettings] = useState(true);
+  const [isShowSensitiveSettings, setIsShowSensitiveSettings] = useState(false);
 
   const handleLeave = () => {
     router.back();
@@ -21,7 +21,7 @@ export default function SettingsScreen() {
   const switchCustomConnection = () => {
     if (!settings) return;
 
-    dataContext.updateSettings({
+    dataContext?.updateSettings({
       ...settings,
       isCustomConnection: !settings.isCustomConnection,
     });
@@ -48,7 +48,7 @@ export default function SettingsScreen() {
               >
                 <LinearGradient
                   colors={
-                    !settings?.customConnection
+                    !settings?.isCustomConnection
                       ? ['#b0485b', '#ff6f61']
                       : ['#f9f9f9', '#f9f9f9']
                   }
@@ -60,7 +60,7 @@ export default function SettingsScreen() {
                     style={[
                       styles.inputText,
                       {
-                        color: !settings?.customConnection
+                        color: !settings?.isCustomConnection
                           ? '#f9f9f9'
                           : '#121212',
                       },
@@ -71,7 +71,7 @@ export default function SettingsScreen() {
                 </LinearGradient>
                 <LinearGradient
                   colors={
-                    settings?.customConnection
+                    settings?.isCustomConnection
                       ? ['#b0485b', '#ff6f61']
                       : ['#f9f9f9', '#f9f9f9']
                   }
@@ -90,7 +90,7 @@ export default function SettingsScreen() {
                     style={[
                       styles.inputText,
                       {
-                        color: settings?.customConnection
+                        color: settings?.isCustomConnection
                           ? '#f9f9f9'
                           : '#121212',
                       },
@@ -167,6 +167,7 @@ const styles = StyleSheet.create({
     userSelect: 'none',
   },
   sensitive: {
+    fontSize: 16,
     color: '#0091f7',
     userSelect: 'none',
     fontStyle: 'italic',
