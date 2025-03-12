@@ -328,7 +328,7 @@ export default function SettingsScreen() {
                 </View>
                 {/* MESSAGING SENDER ID */}
                 <View style={styles.inputContainer}>
-                  <Text style={styles.label}>Cloud messaging</Text>
+                  <Text style={styles.label}>Cloud messaging ID</Text>
                   <TextInput
                     value={messagingSenderId}
                     onChangeText={setMessagingSenderId}
