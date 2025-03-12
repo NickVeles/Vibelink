@@ -1,6 +1,6 @@
-import React, { createContext, useState, useEffect } from "react";
-import { getVibes, saveVibes, saveOrUpdateVibe } from "@/utils/storage";
-import { Vibe } from "@/models/Vibe";
+import React, { createContext, useState, useEffect } from 'react';
+import { getVibes, saveVibes, saveOrUpdateVibe } from '@/utils/storage';
+import { Vibe } from '@/models/Vibe';
 
 interface DataContextType {
   vibes: Vibe[];
@@ -8,9 +8,13 @@ interface DataContextType {
   updateVibes: (vibes: Vibe[]) => Promise<void>;
 }
 
-export const DataContext = createContext<DataContextType | undefined>(undefined);
+export const DataContext = createContext<DataContextType | undefined>(
+  undefined
+);
 
-export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const DataProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [vibes, setVibes] = useState<Vibe[]>([]);
 
   // Load vibes from AsyncStorage once when the app starts
