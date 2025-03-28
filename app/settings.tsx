@@ -429,7 +429,7 @@ export default function SettingsScreen() {
                 style={[styles.inputContainer, styles.sensitive]}
                 onPress={() => setIsShowSensitiveSettings(true)}
               >
-                Show sensitive settings
+                Show sensitive settings (clicking this will instantly log you out)
               </Text>
             )}
           </>
