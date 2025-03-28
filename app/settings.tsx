@@ -1,30 +1,21 @@
 import DataContext from '@/components/DataContext';
 import Header from '@/components/Header';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { BackIcon, EmojiIcon, TrashIcon } from '@/components/ui/Icon';
+import { BackIcon, EmojiIcon } from '@/components/ui/Icon';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
-import { useContext, useEffect, useState } from 'react';
+import { useContext } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   TouchableOpacity,
-  TextInput,
-  ActivityIndicator,
-  Alert,
 } from 'react-native';
-import * as Animatable from 'react-native-animatable';
-import { initializeApp } from 'firebase/app';
-import { Settings } from '@/models/Settings';
-import { FirebaseConnection } from '@/models/FirebaseConnection';
 
 export default function SettingsScreen() {
   const router = useRouter();
   const dataContext = useContext(DataContext);
   const settings = dataContext?.settings;
-
-  const [isConnecting, setIsConnecting] = useState(false);
 
   const handleLeave = () => {
     router.back();
