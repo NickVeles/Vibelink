@@ -172,14 +172,14 @@ export default function VibeEditScreen() {
               >
                 {emoji}
               </Text>
-                <View style={[styles.vibeTextBox]}>
-                  <Text style={[styles.vibeText, styles.vibeTextLabel]}>
+              <View style={[styles.vibeTextBox]}>
+                <Text style={[styles.vibeText, styles.vibeTextLabel]}>
                   I am
-                  </Text>
-                  <Text style={[styles.vibeText, { maxWidth: maxTextWidth }]}>
+                </Text>
+                <Text style={[styles.vibeText, { maxWidth: maxTextWidth }]}>
                   {text.trim() ? text.trim() : ' '}
-                  </Text>
-                </View>
+                </Text>
+              </View>
               <Text
                 style={[
                   styles.emoji,
@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
     userSelect: 'none',
   },
   vibeTextLabel: {
-    fontSize: 12,
+    fontSize: 14,
     paddingTop: 4,
     paddingBottom: 0,
   },
