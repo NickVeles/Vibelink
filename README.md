@@ -1,10 +1,24 @@
 
+(WIP)
+
 - [x] Remove the nav bar and the Explore tab
 - [x] Add cooldown to the vibe buttons
 - [x] Add context window to the vibe buttons
 - [x] Add the add/edit vibe screen
 - [ ] Add the settings screen
 - [x] Add the button press raindrop animation
+
+Add the `.env` file to the root of the project with the following content:
+
+```env
+FIREBASE_API_KEY=your-api-key
+FIREBASE_AUTH_DOMAIN=your-auth-domain
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_STORAGE_BUCKET=your-storage-bucket
+FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+FIREBASE_APP_ID=your-app-id
+FIREBASE_MEASUREMENT_ID=your-measurement-id
+```
 
 # Welcome to your Expo app 👋
 
