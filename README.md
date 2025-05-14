@@ -65,7 +65,6 @@ Vibelink is a React Native application designed to let users express their emoti
 ## Project Structure
 
 ```
-.vscode/           # VS Code settings
 app/               # Application screens and layouts
 components/        # Reusable UI components
 constants/         # App-wide constants
